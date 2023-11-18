@@ -1,0 +1,28 @@
+.sideBar {
+  border-right: 1px solid #0909095d;
+  height: 100vh;
+  background-color: #1d2339;
+  padding: 20px;
+
+  &__menu-main__items {
+    padding: 10px 15px;
+    font-size: 18px;
+
+    &.active {
+      background-color: #26304b;
+      border-radius: 5px;
+    }
+
+    &.active a {
+      color: #fff;
+    }
+    a {
+      text-decoration: none;
+      color: #6a7291;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-weight: 600;
+    }
+  }
+}

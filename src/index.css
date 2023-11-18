@@ -1,0 +1,135 @@
+body {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #26304b;
+  color: #fff;
+}
+.col-lg-2,
+.col-md-9.col-lg-10,
+.col-md-3 {
+  padding: 0;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+}
+
+.scroll-bar {
+  width: 100%;
+  height: 70vh;
+  overflow-y: scroll;
+}
+.scroll-bar::-webkit-scrollbar {
+  width: 5px;
+}
+.scroll-bar::-webkit-scrollbar-thumb {
+  width: 4px;
+  background-color: #f9fbff62;
+}
+.scroll-bar::-webkit-scrollbar-track {
+  width: 4px;
+  background-color: #6474a09a;
+}
+
+.form-input {
+  width: 100%;
+  background-color: #404a6e;
+  padding: 10px;
+  font-size: 18px;
+  color: #fff;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.form-input::placeholder {
+  color: #ffffff96;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+select {
+  width: 100% !important;
+  background-color: #404a6e !important;
+  padding: 10px !important;
+  font-size: 18px !important;
+  color: #fff !important;
+  outline: none !important;
+  border: none !important;
+  border-radius: 5px !important;
+  letter-spacing: 1px !important;
+  cursor: pointer !important;
+  margin-top: 10px;
+}
+.food-select {
+  width: auto !important;
+}
+
+.form-image {
+  width: 300px;
+}
+.form-image img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+}
+
+.file {
+  display: flex;
+  height: 160px;
+  position: relative;
+}
+.filebase {
+  height: 100%;
+  background-color: #9aa7cc;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.filebase input {
+  height: 100%;
+}
+form {
+  padding: 40px;
+  border-radius: 10px;
+  background-color: #1d2339;
+}
+.bg-transparent {
+  margin-top: 20px;
+}
+.bg-transparent th {
+  background-color: #1d2339;
+  color: #fff;
+}
+tr td {
+  background-color: #ffffff1a !important;
+  color: #fff !important;
+}
+.relative {
+  position: relative;
+}
+
+.modal-box {
+  width: 100%;
+  height: 90vh;
+  background-color: #404a6ea6;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form-box {
+  background-color: #1d2339;
+  width: 50%;
+  padding: 30px;
+  transform: translateY(-100px);
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px #000000c4;
+}
