@@ -30,6 +30,13 @@ import {
 } from "./redux/slice/table";
 import TableService from "./service/table";
 import Table from "./page/table/table";
+import {
+  getOrdersFailure,
+  getOrdersStart,
+  getOrdersSuccess,
+} from "./redux/slice/orders";
+import OrderService from "./service/order";
+import Order from "./page/order/order";
 function App() {
   const dispatch = useDispatch();
 
@@ -73,12 +80,22 @@ function App() {
       dispatch(getTableFailure());
     }
   };
+  const getOrders = async () => {
+    dispatch(getOrdersStart());
+    try {
+      const { data } = await OrderService.getOrders();
+      dispatch(getOrdersSuccess(data));
+    } catch (error) {
+      dispatch(getOrdersFailure());
+    }
+  };
 
   useEffect(() => {
     getFoods();
     getCategory();
     getDosage();
     getTables();
+    getOrders();
   }, []);
 
   return (
@@ -100,6 +117,7 @@ function App() {
                   <Route path="/category" element={<Category />} />
                   <Route path="/dosage" element={<Dosage />} />
                   <Route path="/tables" element={<Table />} />
+                  <Route path="/orders" element={<Order />} />
                 </Routes>
               </div>
             </div>

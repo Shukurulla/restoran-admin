@@ -68,11 +68,11 @@ const Table = () => {
               <td scope="row ">{idx + 1}</td>
               <td>
                 <a
-                  href={`http://api.qrserver.com/v1/create-qr-code/?data=${item._id}&size=x&bgcolor=`}
+                  href={`http://api.qrserver.com/v1/create-qr-code/?data=${`https://test-restoran.netlify.app/menu/table/${item._id}`}&size=x&bgcolor=`}
                   target="_blank"
                 >
                   <img
-                    src={`http://api.qrserver.com/v1/create-qr-code/?data=${item._id}&size=x&bgcolor=`}
+                    src={`http://api.qrserver.com/v1/create-qr-code/?data=${`https://test-restoran.netlify.app/menu/table/${item._id}`}&size=x&bgcolor=`}
                     alt=""
                     style={{ width: 60, height: 60 }}
                   />
