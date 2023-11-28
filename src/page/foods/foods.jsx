@@ -53,21 +53,15 @@ const Foods = () => {
             >
               <div className="card-image" style={{ height: "200px" }}>
                 <img
-                  src={`http://localhost:2001/Images/${item.image}`}
+                  src={`https://restoran-service.onrender.com/Images/${item.image}`}
                   className="w-100 rounded h-100"
                   alt=""
                 />
               </div>
               <div className="card-body">
-                <p className="card-text">{item.body}</p>
+                <p className="card-text">{item.foodName}</p>
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="btn-group">
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-outline-secondary"
-                    >
-                      View
-                    </button>
                     <Link
                       type="button"
                       className="btn btn-sm btn-outline-success"

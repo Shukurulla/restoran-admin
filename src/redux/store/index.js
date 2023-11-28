@@ -5,6 +5,7 @@ import CategoryReducer from "../slice/category";
 import DosageReducer from "../slice/dosage";
 import TableReducer from "../slice/table";
 import OrderReducer from "../slice/orders";
+import PaymentReducer from "../slice/payment";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     category: CategoryReducer,
     table: TableReducer,
     order: OrderReducer,
+    payment: PaymentReducer,
   },
   devTools: process.env.NODE_ENV != "production",
 });

@@ -1,0 +1,35 @@
+.order-box {
+  display: flex;
+  margin-top: 20px;
+  background-color: #1d2339;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  &.new {
+    border: 3px solid #0d6efd;
+  }
+  .order-info {
+    padding: 20px;
+    width: 100%;
+    .order-table {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      h3 {
+        font-size: 27px;
+        text-transform: uppercase;
+      }
+    }
+    ul {
+    }
+  }
+  .date {
+    position: absolute;
+    width: 30%;
+    right: 0;
+    padding: 20px;
+    bottom: 0;
+    text-align: right;
+  }
+}

@@ -1,5 +1,5 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:2001";
+axios.defaults.baseURL = "https://restoran-service.onrender.com";
 
 export default axios;

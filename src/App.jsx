@@ -37,6 +37,14 @@ import {
 } from "./redux/slice/orders";
 import OrderService from "./service/order";
 import Order from "./page/order/order";
+import Report from "./page/report/report";
+import {
+  getPaymentsFailure,
+  getPaymentsStart,
+  getPaymentsSuccess,
+} from "./redux/slice/payment";
+import PaymentService from "./service/payment";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -89,6 +97,15 @@ function App() {
       dispatch(getOrdersFailure());
     }
   };
+  const getPayments = async () => {
+    dispatch(getPaymentsStart());
+    try {
+      const { data } = await PaymentService.getPayments();
+      dispatch(getPaymentsSuccess(data));
+    } catch (error) {
+      dispatch(getPaymentsFailure());
+    }
+  };
 
   useEffect(() => {
     getFoods();
@@ -96,16 +113,29 @@ function App() {
     getDosage();
     getTables();
     getOrders();
+    getPayments();
   }, []);
+
+  setInterval(() => {
+    const getOrders = async () => {
+      try {
+        const { data } = await OrderService.getOrders();
+        dispatch(getOrdersSuccess(data));
+      } catch (error) {
+        dispatch(getOrdersFailure());
+      }
+    };
+    getOrders();
+  }, 3000);
 
   return (
     <>
       <div>
         <div className="row">
-          <div className="col-lg-2 col-md-3 col-sm-12">
+          <div className="col-lg-3 col-md-3 col-sm-12">
             <SideBar />
           </div>
-          <div className="col-lg-10 col-md-9 col-sm-12">
+          <div className="col-lg-9 col-md-9 col-sm-12">
             <Header />
             <div className="py-4 relative  px-3">
               <div className="container">
@@ -118,6 +148,7 @@ function App() {
                   <Route path="/dosage" element={<Dosage />} />
                   <Route path="/tables" element={<Table />} />
                   <Route path="/orders" element={<Order />} />
+                  <Route path="/report" element={<Report />} />
                 </Routes>
               </div>
             </div>

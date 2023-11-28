@@ -75,13 +75,13 @@ const Dosage = () => {
               <td>
                 <div className="d-flex gap-1">
                   <button
-                    className="btn btn-danger"
+                    className="btn btn-outline-danger"
                     onClick={() => onDelete(item._id)}
                   >
                     delete
                   </button>
                   <button
-                    className="btn btn-success"
+                    className="btn btn-outline-success"
                     onClick={() => onEdit(item._id)}
                   >
                     edit

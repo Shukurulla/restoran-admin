@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 
 const SideBar = () => {
   const { activePage } = useSelector((state) => state.ui);
+  const { orders } = useSelector((state) => state.order);
+  const newOrders = orders.filter((c) => c.isNew === true);
 
   return (
     <div className="sideBar">
@@ -19,7 +21,21 @@ const SideBar = () => {
               key={item.title}
             >
               <Link to={item.link}>
-                <i className={`bi ${item.icon}`}></i> <span>{item.title}</span>
+                <div className="title">
+                  <i className={`bi ${item.icon}`}></i>{" "}
+                  <span>{item.title} </span>
+                </div>
+                <div className="div">
+                  {item.title === "Buyurtmalar" ? (
+                    newOrders.length > 0 ? (
+                      <span className="message">{newOrders.length}</span>
+                    ) : (
+                      ""
+                    )
+                  ) : (
+                    ""
+                  )}
+                </div>
               </Link>
             </div>
           ))}

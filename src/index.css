@@ -6,7 +6,8 @@ body {
   color: #fff;
 }
 .col-lg-2,
-.col-md-9.col-lg-10,
+.col-md-9,
+.col-lg-10,
 .col-md-3 {
   padding: 0;
 }
@@ -18,7 +19,7 @@ body {
 
 .scroll-bar {
   width: 100%;
-  height: 70vh;
+  height: 80vh;
   overflow-y: scroll;
 }
 .scroll-bar::-webkit-scrollbar {
@@ -104,6 +105,7 @@ form {
 .bg-transparent th {
   background-color: #1d2339;
   color: #fff;
+  padding: 10px;
 }
 tr td {
   background-color: #ffffff1a !important;
@@ -117,7 +119,7 @@ tr td {
   width: 100%;
   height: 90vh;
   background-color: #404a6ea6;
-
+  z-index: 999;
   position: absolute;
   top: 0;
   left: 0;

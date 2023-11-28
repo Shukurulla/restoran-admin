@@ -6,7 +6,7 @@
 
   &__menu-main__items {
     padding: 10px 15px;
-    font-size: 18px;
+    font-size: 20px;
 
     &.active {
       background-color: #26304b;
@@ -21,8 +21,25 @@
       color: #6a7291;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 15px;
       font-weight: 600;
+      .title {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .message {
+        background-color: coral;
+        width: 25px;
+        height: 25px;
+        font-size: 15px;
+        border-radius: 45pc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
     }
   }
 }
