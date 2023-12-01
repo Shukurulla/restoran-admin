@@ -21,6 +21,10 @@ body {
   width: 100%;
   height: 80vh;
   overflow-y: scroll;
+  margin: 20px 0;
+}
+.scroll-bar.bg {
+  background-color: #171e3096;
 }
 .scroll-bar::-webkit-scrollbar {
   width: 5px;
@@ -100,7 +104,6 @@ form {
   background-color: #1d2339;
 }
 .bg-transparent {
-  margin-top: 20px;
 }
 .bg-transparent th {
   background-color: #1d2339;

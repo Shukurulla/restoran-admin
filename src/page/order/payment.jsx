@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { postDebt } from "../../hooks";
 import { getOrdersSuccess } from "../../redux/slice/orders";
 import {
   getPaymentsFailure,
@@ -14,6 +15,9 @@ const Payment = ({ item, setState }) => {
   const { orders } = useSelector((state) => state.order);
   const [modalType, setModalType] = useState("payment");
   const [clientName, setClientName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [gage, setGage] = useState("");
+  const [paymentTerm, setPaymentTerm] = useState("");
 
   const payment = { order: item, status: "To'landi" };
 
@@ -29,6 +33,19 @@ const Payment = ({ item, setState }) => {
       console.log(error);
       dispatch(getPaymentsFailure());
     }
+  };
+
+  const req = {
+    name: clientName,
+    phone,
+    gage,
+    paymentTerm,
+    orders: item,
+  };
+
+  const formSubmit = async () => {
+    await postDebt(dispatch, req, item);
+    setState(false);
   };
 
   return (
@@ -62,16 +79,26 @@ const Payment = ({ item, setState }) => {
             placeholder="Ismi"
           />
           <input
-            type="number"
+            type="text"
             className="form-input"
             placeholder="Telefon raqami"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
           />
 
-          <input type="string" className="form-input" placeholder="Garov" />
+          <input
+            type="string"
+            className="form-input"
+            onChange={(e) => setGage(e.target.value)}
+            placeholder="Garov"
+            value={gage}
+          />
           <input
             type="text"
             className="form-input"
             placeholder="To'lash muddati"
+            value={paymentTerm}
+            onChange={(e) => setPaymentTerm(e.target.value)}
           />
 
           <div className="text-end">
@@ -79,9 +106,11 @@ const Payment = ({ item, setState }) => {
               className="btn btn-outline-primary mx-2"
               onClick={() => setModalType("payment")}
             >
-              Naqt to'ladi
+              Bekor Qilish
             </button>
-            <button className="btn btn-primary">Qarzga qo'shish</button>
+            <button className="btn btn-primary" onClick={() => formSubmit()}>
+              Qarzga qo'shish
+            </button>
           </div>
         </div>
       )}

@@ -13,8 +13,9 @@ const TableOrder = ({ item, setItem, setIsPayment }) => {
   const { tables } = useSelector((state) => state.table);
   const table = tables.filter((c) => c._id === item.tableId)[0];
   const dispatch = useDispatch();
+  const f = new Intl.NumberFormat("es-sp");
 
-  const response = { ...item, isNew: false };
+  const response = { ...item, isNew: "false" };
 
   const editOrder = async (id) => {
     dispatch(getOrdersStart());
@@ -28,24 +29,11 @@ const TableOrder = ({ item, setItem, setIsPayment }) => {
   };
 
   return (
-    <div className={`order-box ${item.isNew ? "new" : ""}`}>
-      <div className="map">
-        <iframe
-          width="400"
-          height="300"
-          style={{ border: "none" }}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          src={`https://maps.google.com/maps?q=${item.location.lat},${
-            item.location.lon
-          }&z=${16}&output=embed`}
-          title="google map"
-        ></iframe>
-      </div>
+    <div className={`order-box ${item.isNew == "true" ? "new" : ""}`}>
       <div className="order-info">
         <div className="order-table">
           <h3>{table?.title}</h3>
-          <p>{item.totalPrice} so'm</p>
+          <p>{f.format(item.totalPrice)} so'm</p>
         </div>
         <ul className="row">
           {item.selectFoods.map((order) => {

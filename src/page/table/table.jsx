@@ -60,6 +60,7 @@ const Table = () => {
             <th scope="col">Stol Codi</th>
             <th scope="col">Stol Nomi</th>
             <th scope="col">-</th>
+            <th scope="col">Link</th>
           </tr>
         </thead>
         <tbody>
@@ -94,6 +95,16 @@ const Table = () => {
                     edit
                   </button>
                 </div>
+              </td>
+              <td>
+                <a
+                  href={`https://test-restoran.netlify.app/menu/table/${item._id}`}
+                  className="btn btn-primary"
+                  target="_blank"
+                  
+                >
+                  Saytga otish
+                </a>
               </td>
             </tr>
           ))}

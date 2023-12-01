@@ -1,8 +1,13 @@
 export const navItems = [
+  // {
+  //   title: "Dashboard",
+  //   link: "/",
+  //   icon: "bi-house",
+  // },
   {
-    title: "Dashboard",
-    link: "/",
-    icon: "bi-house",
+    title: "Buyurtmalar",
+    link: "/orders",
+    icon: "bi-menu-up",
   },
   {
     title: "Stollar",
@@ -14,11 +19,7 @@ export const navItems = [
     link: "/report",
     icon: "bi-graph-up-arrow",
   },
-  {
-    title: "Buyurtmalar",
-    link: "/orders",
-    icon: "bi-menu-up",
-  },
+
   {
     title: "Taomlar",
     link: "/foods",

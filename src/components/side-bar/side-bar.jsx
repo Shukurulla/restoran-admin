@@ -7,7 +7,10 @@ import { useSelector } from "react-redux";
 const SideBar = () => {
   const { activePage } = useSelector((state) => state.ui);
   const { orders } = useSelector((state) => state.order);
-  const newOrders = orders.filter((c) => c.isNew === true);
+  const newOrders = orders.filter((c) => c.isNew === "true");
+
+  document.title =
+    newOrders.length > 0 ? `(${newOrders.length})` + " Restoran" : "Restoran";
 
   return (
     <div className="sideBar">

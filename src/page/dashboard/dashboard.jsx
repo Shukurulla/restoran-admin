@@ -5,6 +5,7 @@ import { changePage } from "../../redux/slice/ui";
 
 const Dashboard = () => {
   const { foods } = useSelector((state) => state.food);
+  const { orders } = useSelector((state) => state.order);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,8 +19,15 @@ const Dashboard = () => {
           <div className="col-lg-4 col-md-6 col-sm-12">
             <InfoCard
               infoTitle={"Jami Taomlar"}
-              icon="bi-border-all"
+              icon="bi-cup-hot"
               infoNumber={foods.length}
+            />
+          </div>
+          <div className="col-lg-4 col-md-6 col-sm-12">
+            <InfoCard
+              infoTitle={"Jami Buyurtmalar"}
+              icon="bi-menu-up"
+              infoNumber={orders.length}
             />
           </div>
         </div>

@@ -1,119 +1,46 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Header from "./components/header/header";
 import SideBar from "./components/side-bar/side-bar";
 import Dashboard from "./page/dashboard/dashboard";
-import {
-  getFoodsFailure,
-  getFoodsStart,
-  getFoodsSuccess,
-} from "./redux/slice/foods";
-import FoodService from "./service/foodSerive";
 import Foods from "./page/foods/foods";
 import AddFood from "./page/addFood/add-food";
-import { getCategoryStart, getCategorySuccess } from "./redux/slice/category";
-import CategoryService from "./service/category";
 import EditFood from "./components/food-edit/edit-food";
 import Category from "./page/category/category";
 import Dosage from "./page/dosage/dosage";
-import {
-  getDosageFailure,
-  getDosageStart,
-  getDosageSuccess,
-} from "./redux/slice/dosage";
-import DosageService from "./service/dosage";
-import {
-  getTableFailure,
-  getTableStart,
-  getTableSuccess,
-} from "./redux/slice/table";
-import TableService from "./service/table";
 import Table from "./page/table/table";
-import {
-  getOrdersFailure,
-  getOrdersStart,
-  getOrdersSuccess,
-} from "./redux/slice/orders";
+import { getOrdersFailure, getOrdersSuccess } from "./redux/slice/orders";
 import OrderService from "./service/order";
 import Order from "./page/order/order";
 import Report from "./page/report/report";
+
 import {
-  getPaymentsFailure,
-  getPaymentsStart,
-  getPaymentsSuccess,
-} from "./redux/slice/payment";
-import PaymentService from "./service/payment";
+  getCategory,
+  getDebt,
+  getDosage,
+  getFoods,
+  getOrders,
+  getPayments,
+  getTables,
+} from "./hooks";
+import Debt from "./page/report/debt";
 
 function App() {
   const dispatch = useDispatch();
-
-  const getFoods = async () => {
-    dispatch(getFoodsStart());
-    try {
-      const { data } = await FoodService.getFoods();
-      dispatch(getFoodsSuccess(data));
-    } catch (error) {
-      console.log(error);
-      dispatch(getFoodsFailure());
-    }
-  };
-  const getCategory = async () => {
-    dispatch(getCategoryStart());
-    try {
-      const { data } = await CategoryService.getCategory();
-      dispatch(getCategorySuccess(data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getDosage = async () => {
-    dispatch(getDosageStart());
-    try {
-      const { data } = await DosageService.getDosage();
-      dispatch(getDosageSuccess(data));
-    } catch (error) {
-      console.log(error);
-      dispatch(getDosageFailure);
-    }
-  };
-
-  const getTables = async () => {
-    dispatch(getTableStart());
-    try {
-      const { data } = await TableService.getTables();
-      dispatch(getTableSuccess(data));
-    } catch (error) {
-      dispatch(getTableFailure());
-    }
-  };
-  const getOrders = async () => {
-    dispatch(getOrdersStart());
-    try {
-      const { data } = await OrderService.getOrders();
-      dispatch(getOrdersSuccess(data));
-    } catch (error) {
-      dispatch(getOrdersFailure());
-    }
-  };
-  const getPayments = async () => {
-    dispatch(getPaymentsStart());
-    try {
-      const { data } = await PaymentService.getPayments();
-      dispatch(getPaymentsSuccess(data));
-    } catch (error) {
-      dispatch(getPaymentsFailure());
-    }
-  };
-
+  const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
-    getFoods();
-    getCategory();
-    getDosage();
-    getTables();
-    getOrders();
-    getPayments();
+    if (location.pathname === "/") {
+      navigate("/orders");
+    }
+    getFoods(dispatch);
+    getCategory(dispatch);
+    getDosage(dispatch);
+    getTables(dispatch);
+    getOrders(dispatch);
+    getPayments(dispatch);
+    getDebt(dispatch);
   }, []);
 
   setInterval(() => {
@@ -149,6 +76,7 @@ function App() {
                   <Route path="/tables" element={<Table />} />
                   <Route path="/orders" element={<Order />} />
                   <Route path="/report" element={<Report />} />
+                  <Route path="/report/debt" element={<Debt />} />
                 </Routes>
               </div>
             </div>

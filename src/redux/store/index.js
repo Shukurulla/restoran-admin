@@ -6,6 +6,8 @@ import DosageReducer from "../slice/dosage";
 import TableReducer from "../slice/table";
 import OrderReducer from "../slice/orders";
 import PaymentReducer from "../slice/payment";
+import UserReducer from "../slice/user";
+import DebtReducer from "../slice/debt";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +18,8 @@ const store = configureStore({
     table: TableReducer,
     order: OrderReducer,
     payment: PaymentReducer,
+    user: UserReducer,
+    debt: DebtReducer,
   },
   devTools: process.env.NODE_ENV != "production",
 });

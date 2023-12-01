@@ -3,3 +3,14 @@
   align-items: center;
   justify-content: space-between;
 }
+.select-food {
+  margin-top: 15px;
+  li {
+    padding: 5px;
+    background-color: #404a6e;
+    border-bottom: 1px solid #1d2339;
+    i {
+      cursor: pointer;
+    }
+  }
+}
