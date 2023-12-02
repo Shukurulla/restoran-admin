@@ -9,6 +9,7 @@ import {
 } from "../../redux/slice/payment";
 import OrderService from "../../service/order";
 import PaymentService from "../../service/payment";
+import "./order.scss";
 
 const Payment = ({ item, setState }) => {
   const dispatch = useDispatch();
@@ -51,7 +52,8 @@ const Payment = ({ item, setState }) => {
   return (
     <div className="modal-box">
       {modalType === "payment" ? (
-        <div className="form-box">
+        <div className="form-box payment">
+          <i className="bi bi-x-lg" onClick={() => setState(false)}></i>
           <h4>Hisobotlarga kiritish</h4>
           <div className="text-end">
             <button

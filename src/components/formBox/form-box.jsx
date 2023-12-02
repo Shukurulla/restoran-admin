@@ -34,6 +34,7 @@ const FormBox = () => {
   const [price, setPrice] = useState("");
   const [totalDosage, setTotalDosage] = useState("");
   const [deepCategory, setDeepCategory] = useState("");
+  const [labelImage, setLabelImage] = useState("");
 
   const formData = new FormData();
 
@@ -57,6 +58,11 @@ const FormBox = () => {
     }
   };
 
+  const changeFile = (e) => {
+    setFile(e.target.files[0]);
+    setLabelImage(URL.createObjectURL(e.target.files[0]));
+  };
+
   useEffect(() => {
     dispatch(changePage("Taomlar"));
   }, []);
@@ -67,10 +73,10 @@ const FormBox = () => {
       <div className="col-lg-6 col-md-12">
         <div className="file">
           <label htmlFor="file" className="form-image">
-            <img src={file ? file : addIcon} alt="" />
+            <img src={file ? labelImage : addIcon} alt="" />
           </label>
           <div className="filebase">
-            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+            <input type="file" onChange={(e) => changeFile(e)} />
           </div>
         </div>
         <select

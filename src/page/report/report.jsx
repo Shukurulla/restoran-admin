@@ -107,7 +107,7 @@ const Report = () => {
       <div className="report-header">
         <h2>Hisobotlar</h2>
         <div
-          className="btn btn-outline-primary"
+          className="btn btn-danger"
           onClick={() => navigate("/report/debt")}
         >
           Qarzdorlar
@@ -148,6 +148,7 @@ const Report = () => {
             Barchasi
           </div>
         </div>
+        <div className="">Jami tushum: {f.format(score)}so'm</div>
         <input
           type="date"
           value={date}
@@ -181,7 +182,6 @@ const Report = () => {
           </tbody>
         </table>
       </div>
-      <div className="">jami: {f.format(score)}so'm</div>
     </div>
   );
 };

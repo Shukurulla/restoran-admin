@@ -21,11 +21,13 @@ const EditFood = () => {
   const [body, setBody] = useState(oneFood?.body);
   const [price, setPrice] = useState(oneFood?.price);
   const [isEdit, setIsEdit] = useState(false);
+  const [labelImage, setLabelImage] = useState("");
 
   const formData = new FormData();
 
   useEffect(() => {
     setIsEdit(true);
+    console.log(file);
   }, [file, category, dosage, foodName, body, price]);
 
   formData.append("image", file);
@@ -47,6 +49,12 @@ const EditFood = () => {
     }
   };
 
+  const changeFile = (e) => {
+    setFile(e.target.files[0]);
+    setLabelImage(URL.createObjectURL(e.target.files[0]));
+    console.log(URL.createObjectURL(e.target.files[0]));
+  };
+
   useEffect(() => {
     dispatch(changePage("Taomlar"));
   }, []);
@@ -58,12 +66,16 @@ const EditFood = () => {
         <div className="file">
           <label htmlFor="file" className="form-image">
             <img
-              src={file ? `http://localhost:2001/Images/${file}` : addIcon}
+              src={
+                file
+                  ? `https://restoran-service.onrender.com/Images/${file}`
+                  : labelImage
+              }
               alt=""
             />
           </label>
           <div className="filebase">
-            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+            <input type="file" onChange={(e) => changeFile(e)} />
           </div>
         </div>
         <select

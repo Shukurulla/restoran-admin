@@ -68,9 +68,9 @@ const Dosage = () => {
           </tr>
         </thead>
         <tbody>
-          {dosage.map((item) => (
+          {dosage.map((item, idx) => (
             <tr className="table-row">
-              <td scope="row ">{item._id}</td>
+              <td scope="row ">{idx + 1}</td>
               <td>{item.title}</td>
               <td>
                 <div className="d-flex gap-1">

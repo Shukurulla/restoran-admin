@@ -10,12 +10,14 @@ import {
   getDebtSuccess,
 } from "../../redux/slice/debt";
 import { changePage } from "../../redux/slice/ui";
+import { useNavigate } from "react-router-dom";
 
 const Debt = () => {
   const { debt } = useSelector((state) => state.debt);
   const f = new Intl.NumberFormat("es-sp");
   const [score, setScore] = useState(0);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(changePage("Hisobot"));
     setScore(
@@ -46,7 +48,18 @@ const Debt = () => {
 
   return (
     <>
-      <h2>Qarzdorlar</h2>
+      <div className="d-flex align-items-center justify-content-between">
+        <h2 className="d-flex align-items-center m-0 p-0 gap-2">
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("/report")}
+          >
+            <i className="bi bi-arrow-left"></i> Orqaga
+          </button>{" "}
+          Qarzdorlar
+        </h2>
+        <h4 className="">Jami tushum: {f.format(score)}so'm</h4>
+      </div>
       <div className="scroll-bar h-60 bg">
         <table className="table bg-transparent table-striped">
           <thead>
@@ -57,7 +70,6 @@ const Debt = () => {
             <th>Summasi</th>
             <th>Tolash Sanasi</th>
             <th>Garov</th>
-            <th>Sozlama</th>
           </thead>
           <tbody>
             {debt
@@ -74,7 +86,7 @@ const Debt = () => {
                   <td>{item.gage}</td>
                   <td>
                     <button
-                      className="btn mx-2 btn-primary"
+                      className="btn mx-2 btn-success"
                       onClick={() => onPayment(item.orders, item._id)}
                     >
                       Tolandi
@@ -85,7 +97,6 @@ const Debt = () => {
           </tbody>
         </table>
       </div>
-      <div className="">jami: {f.format(score)}so'm</div>
     </>
   );
 };

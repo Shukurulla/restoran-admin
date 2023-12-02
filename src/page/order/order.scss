@@ -14,3 +14,15 @@
     }
   }
 }
+.payment {
+  position: relative;
+  h4 {
+    margin-bottom: 10px;
+  }
+  i {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+  }
+}
