@@ -12,7 +12,7 @@ const categorySlice = createSlice({
       state.isLoading = true;
     },
     getCategorySuccess: (state, action) => {
-      state.isLoading = true;
+      state.isLoading = false;
       state.data = action.payload;
     },
   },

@@ -1,0 +1,20 @@
+.order-box {
+  background-color: #171e3096;
+  margin-top: 15px;
+  border-radius: 15px;
+  position: relative;
+  .top-box {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+    .btn-and-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  .pr-3 {
+    padding-right: 30px;
+  }
+}

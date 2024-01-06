@@ -14,6 +14,40 @@
     }
   }
 }
+.order-info-box {
+  background-color: #404a6e;
+  text-align: center;
+  padding: 20px;
+  border-radius: 15px;
+  font-size: 20px;
+  position: relative;
+  .msg {
+    background-color: coral;
+    width: 25px;
+    height: 25px;
+    font-size: 15px;
+    border-radius: 45pc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    right: 20px;
+    top: 10px;
+    position: absolute;
+  }
+  i {
+    font-size: 35px;
+  }
+  .icon-box {
+    height: 35px;
+    margin-bottom: 15px;
+  }
+  img {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+  }
+}
 .payment {
   position: relative;
   h4 {
@@ -24,5 +58,15 @@
     right: 20px;
     top: 20px;
     cursor: pointer;
+  }
+}
+.report-info {
+  margin: 20px 0;
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    list-style: none;
   }
 }

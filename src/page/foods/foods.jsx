@@ -52,11 +52,7 @@ const Foods = () => {
               style={{ backgroundColor: "#374164" }}
             >
               <div className="card-image" style={{ height: "200px" }}>
-                <img
-                  src={`https://restoran-service.onrender.com/Images/${item.image}`}
-                  className="w-100 rounded h-100"
-                  alt=""
-                />
+                <img src={item.image} className="w-100 rounded h-100" alt="" />
               </div>
               <div className="card-body">
                 <p className="card-text">{item.foodName}</p>
@@ -65,7 +61,7 @@ const Foods = () => {
                     <Link
                       type="button"
                       className="btn btn-sm btn-outline-success"
-                      to={`/edit-food/${item._id}`}
+                      to={`/restoran/edit-food/${item._id}`}
                     >
                       Edit
                     </Link>

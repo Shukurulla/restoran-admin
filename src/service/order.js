@@ -1,21 +1,50 @@
+import {
+  getOrdersFailure,
+  getOrdersStart,
+  getOrdersSuccess,
+} from "../redux/slice/orders";
 import axios from "./api";
 
 const OrderService = {
-  async getOrders() {
-    const { data } = await axios.get("/orders");
-    return data;
+  async getOrders(dispatch) {
+    dispatch(getOrdersStart());
+    try {
+      const { data } = await axios.get("/orders");
+      dispatch(getOrdersSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getOrdersFailure());
+    }
   },
-  async postOrders(order) {
-    const { data } = await axios.post("/orders", order);
-    return data;
+  async postOrders(dispatch, order) {
+    dispatch(getOrdersStart());
+    try {
+      const { data } = await axios.post("/orders", order);
+      dispatch(getOrdersSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getOrdersFailure());
+    }
   },
-  async editOrder(id, order) {
-    const { data } = await axios.post(`/edit-order/${id}`, order);
-    return data;
+  async editOrder(dispatch, id, order) {
+    dispatch(getOrdersStart());
+    try {
+      const { data } = await axios.post(`/edit-order/${id}`, order);
+      dispatch(getOrdersSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getOrdersFailure());
+    }
   },
-  async deleteOrder(id) {
-    const { data } = await axios.post(`/delete-order/${id}`);
-    return data;
+  async deleteOrder(dispatch, id) {
+    dispatch(getOrdersStart());
+    try {
+      const { data } = await axios.post(`/delete-order/${id}`);
+      dispatch(getOrdersSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getOrdersFailure());
+    }
   },
 };
 

@@ -11,7 +11,7 @@ const EditFood = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { data } = useSelector((state) => state.category);
-  const { foods } = useSelector((state) => state.food);
+  const { foods, isLoading } = useSelector((state) => state.food);
   const oneFood = foods.filter((c) => c._id === id)[0];
 
   const [file, setFile] = useState(oneFood?.image);
@@ -27,7 +27,6 @@ const EditFood = () => {
 
   useEffect(() => {
     setIsEdit(true);
-    console.log(file);
   }, [file, category, dosage, foodName, body, price]);
 
   formData.append("image", file);
@@ -38,15 +37,34 @@ const EditFood = () => {
   formData.append("body", body);
   formData.append("isEdit", isEdit);
 
-  const handleEdit = async () => {
+  const handleEdit = async (e) => {
+    e.preventDefault();
     dispatch(getFoodsStart());
-    try {
-      const { data } = await FoodService.editFood(formData, id);
-      dispatch(getFoodsSuccess(data));
-      navigate("/foods");
-    } catch (error) {
-      console.log(error);
-    }
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "restoran-order");
+    formData.append("cloud_name", "djsdapm3z");
+
+    await fetch("https://api.cloudinary.com/v1_1/djsdapm3z/image/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then(async (data) => {
+        const food = await FoodService.editFood(id, {
+          image: data.secure_url,
+          foodName,
+          dosage,
+          category,
+          body,
+          price,
+        });
+        dispatch(getFoodsSuccess(food.data));
+        navigate("/restoran/foods");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const changeFile = (e) => {
@@ -60,19 +78,12 @@ const EditFood = () => {
   }, []);
 
   return (
-    <div className="row">
+    <form className="row" onSubmit={(e) => handleEdit(e)}>
       <h3 className="py-2">Taom O'zgartirish</h3>
       <div className="col-lg-6 col-md-12">
         <div className="file">
           <label htmlFor="file" className="form-image">
-            <img
-              src={
-                file
-                  ? `https://restoran-service.onrender.com/Images/${file}`
-                  : labelImage
-              }
-              alt=""
-            />
+            <img src={labelImage.length == 0 ? file : labelImage} alt="" />
           </label>
           <div className="filebase">
             <input type="file" onChange={(e) => changeFile(e)} />
@@ -122,11 +133,11 @@ const EditFood = () => {
         />
       </div>
       <div className="col-lg-12 col-md-12 text-center">
-        <button className="btn btn-primary" onClick={() => handleEdit()}>
-          Taom O'zgartirish
+        <button className="btn btn-primary" disabled={isLoading}>
+          {isLoading ? "Yuklanmoqda" : "Taom O'zgartirish"}
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

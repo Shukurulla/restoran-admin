@@ -1,21 +1,50 @@
+import {
+  getPaymentsFailure,
+  getPaymentsStart,
+  getPaymentsSuccess,
+} from "../redux/slice/payment";
 import axios from "./api";
 const PaymentService = {
-  async getPayments() {
-    const { data } = await axios.get("/save-orders");
-    return data;
+  async getPayments(dispatch) {
+    dispatch(getPaymentsStart());
+    try {
+      const { data } = await axios.get("/save-orders");
+      dispatch(getPaymentsSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getPaymentsFailure());
+    }
   },
 
-  async postPayment(payment) {
-    const { data } = await axios.post("/save-orders", payment);
-    return data;
+  async postPayment(dispatch, payment) {
+    dispatch(getPaymentsStart());
+    try {
+      const { data } = await axios.post("/save-orders", payment);
+      dispatch(getPaymentsSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getPaymentsFailure());
+    }
   },
-  async editPayment(id, payment) {
-    const { data } = await axios.post(`/edit-save-orders/${id}`, payment);
-    return data;
+  async editPayment(dispatch, id, payment) {
+    dispatch(getPaymentsStart());
+    try {
+      const { data } = await axios.post(`/edit-save-orders/${id}`, payment);
+      dispatch(getPaymentsSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getPaymentsFailure());
+    }
   },
-  async deletePayment(id) {
-    const { data } = await axios.post(`/delete-save-orders/${id}`);
-    return data;
+  async deletePayment(dispatch, id) {
+    dispatch(getPaymentsStart());
+    try {
+      const { data } = await axios.post(`/delete-save-orders/${id}`);
+      dispatch(getPaymentsSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getPaymentsFailure());
+    }
   },
 };
 

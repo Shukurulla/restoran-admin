@@ -8,6 +8,11 @@ import OrderReducer from "../slice/orders";
 import PaymentReducer from "../slice/payment";
 import UserReducer from "../slice/user";
 import DebtReducer from "../slice/debt";
+import ServiceReducer from "../slice/service-slice";
+import SavedOrders from "../slice/saved-orders";
+import MusicReducer from "../slice/music";
+import KaraokeReducer from "../slice/karaoke";
+import TradeTableReducer from "../slice/trade-table";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +25,11 @@ const store = configureStore({
     payment: PaymentReducer,
     user: UserReducer,
     debt: DebtReducer,
+    service: ServiceReducer,
+    saved: SavedOrders,
+    music: MusicReducer,
+    karaoke: KaraokeReducer,
+    tradeTable: TradeTableReducer,
   },
   devTools: process.env.NODE_ENV != "production",
 });

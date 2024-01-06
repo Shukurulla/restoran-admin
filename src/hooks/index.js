@@ -25,16 +25,28 @@ import {
   getPaymentsSuccess,
 } from "../redux/slice/payment";
 import {
+  getSavedFailure,
+  getSavedStart,
+  getSavedSuccess,
+} from "../redux/slice/saved-orders";
+import {
+  getServicesStart,
+  getServiceSuccess,
+} from "../redux/slice/service-slice";
+import {
   getTableFailure,
   getTableStart,
   getTableSuccess,
 } from "../redux/slice/table";
+import { addUnpaid } from "../redux/slice/ui";
 import CategoryService from "../service/category";
 import DebtService from "../service/debt";
 import DosageService from "../service/dosage";
 import FoodService from "../service/foodSerive";
 import OrderService from "../service/order";
 import PaymentService from "../service/payment";
+import SavedService from "../service/saved-service";
+import ServiceApi from "../service/service";
 import TableService from "../service/table";
 
 export const getFoods = async (dispatch) => {
@@ -116,10 +128,69 @@ export const postDebt = async (dispatch, debt, item) => {
     const { data } = await DebtService.postDebt(debt);
     dispatch(getDebtSuccess(data));
 
-    const orders = await OrderService.deleteOrder(item._id);
-    dispatch(getOrdersSuccess(orders.data));
+    const orders = await SavedService.deleteSaved(item._id);
+    dispatch(getSavedSuccess(orders.data));
   } catch (error) {
     console.log(error);
     dispatch(getDebtFailure());
+  }
+};
+
+export const addUnpaidFunction = (dispatch, val) => {
+  dispatch(addUnpaid(val));
+};
+
+export const getServices = async (dispatch) => {
+  dispatch(getServicesStart());
+  try {
+    const { data } = await ServiceApi.getSerives();
+    dispatch(getServiceSuccess(data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Saved Orders
+export const getSavedOrders = async (dispatch) => {
+  dispatch(getSavedStart());
+  try {
+    const { data } = await SavedService.getSaved();
+    dispatch(getSavedSuccess(data));
+  } catch (error) {
+    console.log(error);
+    dispatch(getSavedFailure());
+  }
+};
+
+export const submitSaved = async (dispatch, val) => {
+  dispatch(getSavedStart());
+  try {
+    const { data } = await SavedService.postSaved(val);
+    dispatch(getSavedSuccess(data));
+  } catch (error) {
+    console.log(error);
+    dispatch(getSavedFailure());
+  }
+};
+
+export const editSaved = async (dispatch, id, val) => {
+  dispatch(getSavedStart());
+  try {
+    const { data } = await SavedService.editSaved(id, val);
+    dispatch(getSavedSuccess(data));
+  } catch (error) {
+    console.log(error);
+    dispatch(getSavedFailure());
+  }
+};
+
+export const deleteSaved = async (dispatch, id) => {
+  dispatch(getSavedStart());
+  try {
+    const { data } = await SavedService.deleteSaved(id);
+    dispatch(getSavedSuccess(data));
+  } catch (error) {
+    console.log(error);
+    dispatch(getSavedFailure());
   }
 };

@@ -9,7 +9,7 @@ const FoodService = {
     const { data } = await axios.post("/foods-create", food);
     return data;
   },
-  async editFood(food, id) {
+  async editFood(id, food) {
     const { data } = await axios.post(`/edit-food/${id}`, food);
     return data;
   },

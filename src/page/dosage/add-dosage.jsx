@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDosageStart, getDosageSuccess } from "../../redux/slice/dosage";
 import DosageService from "../../service/dosage";
 
 const AddDosage = ({ setState, state }) => {
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.dosage);
 
   const onSubmit = async () => {
     dispatch(getDosageStart());
@@ -36,8 +37,12 @@ const AddDosage = ({ setState, state }) => {
           >
             Bekor Qilish
           </button>
-          <button className="btn btn-primary" onClick={() => onSubmit()}>
-            Qo'shish
+          <button
+            className="btn btn-primary"
+            disabled={isLoading}
+            onClick={() => onSubmit()}
+          >
+            {isLoading ? "Yuklanmoqda" : " Qo'shish"}
           </button>
         </div>
       </div>

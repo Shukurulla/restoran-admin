@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "./order.scss";
 
-const AddOrder = () => {
+const AddOrder = ({ setIsAddOrder }) => {
   const { tables } = useSelector((state) => state.table);
   const { foods } = useSelector((state) => state.food);
 
@@ -11,23 +11,6 @@ const AddOrder = () => {
   const [filterFoods, setFilterFoods] = useState(false);
   const [word, setWord] = useState("");
   const [foodCount, setFoodCount] = useState([]);
-  /*
-  
-  orderedAt(pin): "2023-11-29T03:53:07.924Z"
-tableId(pin): "65534ab7f6db898018b6a269"
-totalPrice(pin): "17250"
-tableName(pin): "banketniy 1-stol"
-isNew(pin): true
-
-  */
-
-  const formData = {
-    orderedAt: new Date(),
-    tableId: `65534ab7f6db898018b6a269`,
-    totalPrice: "17250",
-    tableName: "banketniy 1-stol",
-    isNew: true,
-  };
 
   const onTypeHandler = (word) => {
     setIsType(!isType);
@@ -45,7 +28,10 @@ isNew(pin): true
     setFoodCount([...foodCount, food]);
     setWord("");
     setIsType(false);
-    console.log(foodCount);
+  };
+
+  const deleteOrder = (idx) => {
+    setFoodCount(foodCount.filter((_, id) => id !== idx));
   };
 
   return (
@@ -53,8 +39,8 @@ isNew(pin): true
       <div className="form-box">
         <h3 className="form-title">Qo'lda buyurtma berish </h3>
         <div className="form-info">
-          <div className="row">
-            <div className="col-lg-6 col-md-6 col-sm-12">
+          <div className="">
+            <div className="">
               <label>Stol nomi</label>
               <select>
                 {tables.map((item) => (
@@ -62,7 +48,7 @@ isNew(pin): true
                 ))}
               </select>
             </div>
-            <div className="col-lg-6 col-md-6 col-sm-12">
+            <div className="py-3">
               <label>Taom nomi</label>
               <input
                 type="text"
@@ -73,7 +59,7 @@ isNew(pin): true
               />
               {isType == true ? (
                 <ul className="search-food">
-                  {filterFoods
+                  {filterFoods.length > 0
                     ? filterFoods.map((item) => (
                         <li onClick={() => addOrderHandler(item.foodName)}>
                           {item.foodName}
@@ -85,14 +71,39 @@ isNew(pin): true
                 ""
               )}
               <ul className="select-food m-0 p-0">
-                {foodCount.map((item) => (
+                {foodCount.map((item, idx) => (
                   <li className=" d-flex align-items-center justify-content-between">
-                    {item} <i className="bi bi-x-lg"></i>
+                    {item}
+                    <div className="d-flex gap-3">
+                      <div className="btns d-flex">
+                        <div className="btn-minus">-</div>
+                        <div className="btn-minus">1</div>
+                        <div className="btn-plus">+</div>
+                      </div>
+                      <i
+                        className="bi bi-x-lg"
+                        onClick={() => deleteOrder(idx)}
+                      ></i>
+                    </div>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
+        </div>
+        <div className="d-flex align-items-center justify-content-between">
+          <button
+            className="btn btn-outline-primary"
+            onClick={() => setIsAddOrder(false)}
+          >
+            Bekor Qilish
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => setIsAddOrder(false)}
+          >
+            Yuborish
+          </button>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getCategoryStart,
   getCategorySuccess,
@@ -9,6 +9,7 @@ import CategoryService from "../../service/category";
 const AddCategory = ({ setState, state }) => {
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.category);
 
   const onSubmit = async () => {
     dispatch(getCategoryStart());
@@ -39,8 +40,12 @@ const AddCategory = ({ setState, state }) => {
           >
             Bekor Qilish
           </button>
-          <button className="btn btn-primary" onClick={() => onSubmit()}>
-            Qo'shish
+          <button
+            className="btn btn-primary"
+            disabled={isLoading}
+            onClick={() => onSubmit()}
+          >
+            {isLoading ? "Yuklanmoqda" : "Qo'shish"}
           </button>
         </div>
       </div>

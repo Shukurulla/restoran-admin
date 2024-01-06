@@ -1,0 +1,40 @@
+.service-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  background-color: #171e3096;
+  padding: 15px;
+  border-radius: 10px;
+  p {
+    margin: 0;
+  }
+  .show-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    i {
+      cursor: pointer;
+    }
+  }
+  .config-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    input {
+      width: 60px;
+    }
+    i {
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+  input {
+    background-color: #687ba796;
+    border: 0;
+  }
+  .edit-title {
+    font-size: 24px;
+    width: 50%;
+  }
+}

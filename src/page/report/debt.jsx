@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment/moment";
-import { getPaymentsSuccess } from "../../redux/slice/payment";
-import PaymentService from "../../service/payment";
-import DebtService from "../../service/debt";
-import {
-  getDebtFailure,
-  getDebtStart,
-  getDebtSuccess,
-} from "../../redux/slice/debt";
 import { changePage } from "../../redux/slice/ui";
 import { useNavigate } from "react-router-dom";
+import Payment from "../order/payment";
 
 const Debt = () => {
   const { debt } = useSelector((state) => state.debt);
+  const { unpaid } = useSelector((state) => state.ui);
   const f = new Intl.NumberFormat("es-sp");
   const [score, setScore] = useState(0);
+  const [isShow, setIsShow] = useState(false);
+  const [item, setItem] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -29,30 +25,23 @@ const Debt = () => {
     );
   }, []);
 
-  const onPayment = async (order, id) => {
-    dispatch(getDebtStart());
-    try {
-      const { data } = await PaymentService.postPayment({
-        status: "To'landi",
-        order,
-      });
-      dispatch(getPaymentsSuccess(data));
-      const orders = await DebtService.deleteDebt(id);
-
-      dispatch(getDebtSuccess(orders.data));
-    } catch (error) {
-      console.log(error);
-      dispatch(getDebtFailure());
-    }
+  const onSubmit = (val) => {
+    setItem(val);
+    setIsShow(true);
   };
 
   return (
     <>
       <div className="d-flex align-items-center justify-content-between">
+        {isShow && (
+          <div className="payment-box">
+            <div className="alert"></div>
+          </div>
+        )}
         <h2 className="d-flex align-items-center m-0 p-0 gap-2">
           <button
             className="btn btn-primary"
-            onClick={() => navigate("/report")}
+            onClick={() => navigate("/restoran/report")}
           >
             <i className="bi bi-arrow-left"></i> Orqaga
           </button>{" "}
@@ -75,25 +64,36 @@ const Debt = () => {
             {debt
               .slice()
               .reverse()
-              .map((item, idx) => (
-                <tr>
-                  <td>{idx + 1}</td>
-                  <td>{item.name}</td>
-                  <td>{item.phone}</td>
-                  <td>{moment(item.orders.orderedAt).format("DD.MM.YYYY")}</td>
-                  <td>{f.format(item.orders.totalPrice)}so'm</td>
-                  <td>{item.paymentTerm}</td>
-                  <td>{item.gage}</td>
-                  <td>
-                    <button
-                      className="btn mx-2 btn-success"
-                      onClick={() => onPayment(item.orders, item._id)}
-                    >
-                      Tolandi
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              .map((item, idx) => {
+                return (
+                  <tr
+                    className={
+                      unpaid.filter((c) => c.paymentTerm == item.paymentTerm)
+                        .length
+                        ? "unpaid"
+                        : ""
+                    }
+                  >
+                    <td>{idx + 1}</td>
+                    <td>{item.name}</td>
+                    <td>{item.phone}</td>
+                    <td>
+                      {moment(item.orders.orderedAt).format("DD.MM.YYYY HH:MM")}
+                    </td>
+                    <td>{f.format(item.orders.totalPrice)}so'm</td>
+                    <td>{item.paymentTerm}</td>
+                    <td>{item.gage}</td>
+                    <td>
+                      <button
+                        className="btn mx-2 btn-success"
+                        onClick={() => onSubmit(item)}
+                      >
+                        Tolandi
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>

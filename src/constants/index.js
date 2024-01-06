@@ -5,34 +5,39 @@ export const navItems = [
   //   icon: "bi-house",
   // },
   {
-    title: "Buyurtmalar",
-    link: "/orders",
+    title: "Yangi Buyurtmalar",
+    link: "/restoran/orders",
     icon: "bi-menu-up",
   },
   {
     title: "Stollar",
-    link: "/tables",
+    link: "/restoran/tables",
     icon: "bi-table",
   },
   {
     title: "Hisobot",
-    link: "/report",
+    link: "/restoran/report",
     icon: "bi-graph-up-arrow",
   },
 
   {
     title: "Taomlar",
-    link: "/foods",
+    link: "/restoran/foods",
     icon: "bi-cup-hot",
   },
   {
     title: "Kategoriya",
-    link: "/category",
+    link: "/restoran/category",
     icon: "bi-list-stars",
   },
   {
     title: "Miqdor",
-    link: "/dosage",
+    link: "/restoran/dosage",
     icon: "bi-bag-plus-fill",
+  },
+  {
+    title: "Saqlanganlar",
+    link: "/restoran/save-orders",
+    icon: "bi-patch-plus",
   },
 ];

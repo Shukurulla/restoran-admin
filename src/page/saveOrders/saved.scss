@@ -1,0 +1,27 @@
+.saved-order {
+  margin-top: 20px;
+  background-color: #1d2339;
+  padding: 20px;
+  border-radius: 10px;
+  .saved-order-info {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    .food-menu {
+      padding: 0;
+      .food-list {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        span {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

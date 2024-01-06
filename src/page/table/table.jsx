@@ -57,7 +57,8 @@ const Table = () => {
         <thead>
           <tr>
             <th scope="col">№</th>
-            <th scope="col">Stol Codi</th>
+            <th scope="col">Menu Codi</th>
+            <th scope="col">Hisob Codi</th>
             <th scope="col">Stol Nomi</th>
             <th scope="col">-</th>
             <th scope="col">Link</th>
@@ -74,6 +75,18 @@ const Table = () => {
                 >
                   <img
                     src={`http://api.qrserver.com/v1/create-qr-code/?data=${`https://test-restoran.netlify.app/menu/table/${item._id}`}&size=x&bgcolor=`}
+                    alt=""
+                    style={{ width: 60, height: 60 }}
+                  />
+                </a>
+              </td>
+              <td>
+                <a
+                  href={`http://api.qrserver.com/v1/create-qr-code/?data=${`https://test-restoran.netlify.app/check/table/${item._id}`}&size=x&bgcolor=`}
+                  target="_blank"
+                >
+                  <img
+                    src={`http://api.qrserver.com/v1/create-qr-code/?data=${`https://test-restoran.netlify.app/check/table/${item._id}`}&size=x&bgcolor=`}
                     alt=""
                     style={{ width: 60, height: 60 }}
                   />
@@ -101,7 +114,6 @@ const Table = () => {
                   href={`https://test-restoran.netlify.app/menu/table/${item._id}`}
                   className="btn btn-primary"
                   target="_blank"
-                  
                 >
                   Saytga otish
                 </a>

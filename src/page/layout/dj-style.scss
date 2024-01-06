@@ -1,0 +1,28 @@
+.dj-side {
+  height: 100vh;
+
+  .side-bar-dj {
+    background-color: #1d2339;
+    height: 100%;
+    padding: 15px;
+    .navigate {
+      margin-top: 15px;
+      .navigate-item {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        font-size: 19px;
+        border-radius: 10px;
+        cursor: pointer;
+        &.active {
+          background-color: #9aa7cc57;
+        }
+      }
+    }
+  }
+  .dj-header {
+    background-color: #1d2339;
+  }
+}

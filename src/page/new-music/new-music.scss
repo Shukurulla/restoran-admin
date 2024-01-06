@@ -1,0 +1,151 @@
+.new-music {
+  width: 100%;
+  position: relative;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .music-header-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    button {
+      transition: 0.4s;
+    }
+  }
+  .music-box {
+    background-color: #1d2339;
+    height: 100%;
+    width: 70%;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 15px;
+    .music-items {
+      padding: 15px 0;
+      overflow-y: scroll;
+
+      .music-item {
+        margin-bottom: 10px;
+        border-bottom: 1px solid #a8a8a886;
+        padding: 10px 0;
+        display: flex;
+        gap: 20px;
+        .music-info {
+          width: 70%;
+        }
+        .head {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .table-name {
+          font-size: 22px;
+          font-weight: 600;
+        }
+        p {
+          margin: 0;
+        }
+        .music {
+          padding: 5px;
+          border-radius: 5px;
+          margin-top: 2px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          transition: 0.2s;
+          font-size: 19px;
+          &:hover {
+            background-color: #404c7793;
+          }
+          &.end {
+            color: #ffffff70;
+            pointer-events: none;
+          }
+          &.text-danger {
+            color: red !important;
+          }
+        }
+      }
+    }
+  }
+}
+.music-alert {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  background-color: #6168859c;
+  display: flex;
+  justify-content: center;
+  .alert-box {
+    background-color: #1d2339;
+    width: 50%;
+    height: 200px;
+    transform: translateY(50%);
+    padding: 20px;
+    border-radius: 15px;
+    .alert-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      i {
+        cursor: pointer;
+      }
+    }
+    .config {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+  }
+}
+.animation-line {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  span {
+    width: 4px;
+    height: 100%;
+    background-color: #0d6efd;
+    border-radius: 3px;
+    content: "";
+    animation: bounce 2.2s ease infinite alternate;
+  }
+  span {
+    &:nth-of-type(2) {
+      animation-delay: -2.2s; /* Start at the end of animation */
+    }
+
+    &:nth-of-type(3) {
+      animation-delay: -3.7s; /* Start mid-way of return of animation */
+    }
+  }
+
+  @keyframes bounce {
+    10% {
+      transform: scaleY(0.3); /* start by scaling to 30% */
+    }
+
+    30% {
+      transform: scaleY(1); /* scale up to 100% */
+    }
+
+    60% {
+      transform: scaleY(0.5); /* scale down to 50% */
+    }
+
+    80% {
+      transform: scaleY(0.75); /* scale up to 75% */
+    }
+
+    100% {
+      transform: scaleY(0.6); /* scale down to 60% */
+    }
+  }
+}

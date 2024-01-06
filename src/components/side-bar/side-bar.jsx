@@ -29,7 +29,7 @@ const SideBar = () => {
                   <span>{item.title} </span>
                 </div>
                 <div className="div">
-                  {item.title === "Buyurtmalar" ? (
+                  {item.title === "Yangi Buyurtmalar" ? (
                     newOrders.length > 0 ? (
                       <span className="message">{newOrders.length}</span>
                     ) : (

@@ -1,21 +1,47 @@
+import { getDebtStart, getDebtSuccess } from "../redux/slice/debt";
+import { getDosageFailure } from "../redux/slice/dosage";
 import axios from "./api";
 
 const DebtService = {
-  async getDebt() {
-    const { data } = await axios.get("/debt");
-    return data;
+  async getDebt(dispatch) {
+    dispatch(getDebtStart());
+    try {
+      const { data } = await axios.get("/debt");
+      dispatch(getDebtSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getDosageFailure());
+    }
   },
-  async postDebt(debt) {
-    const { data } = await axios.post("/debt", debt);
-    return data;
+  async postDebt(dispatch, debt) {
+    dispatch(getDebtStart());
+    try {
+      const { data } = await axios.post("/debt", debt);
+      dispatch(getDebtSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getDosageFailure());
+    }
   },
-  async editDebt(id, debt) {
-    const { data } = await axios.post(`/edit-debt/${id}`, debt);
-    return data;
+  async editDebt(dispatch, id, debt) {
+    dispatch(getDebtStart());
+    try {
+      const { data } = await axios.post(`/edit-debt/${id}`, debt);
+      dispatch(getDebtSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getDosageFailure());
+    }
   },
-  async deleteDebt(id) {
-    const { data } = await axios.post(`/delete-debt/${id}`);
-    return data;
+  async deleteDebt(dispatch, id) {
+    dispatch(getDebtStart());
+    try {
+      const { data } = await axios.post(`/delete-debt/${id}`);
+      dispatch(getDebtSuccess(data.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getDosageFailure());
+    }
   },
 };
 
