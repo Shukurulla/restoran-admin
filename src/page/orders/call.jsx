@@ -1,9 +1,14 @@
 import moment from "moment";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import CallService from "../../service/call";
 
 const Call = () => {
   const { calls } = useSelector((state) => state.call);
+  const dispatch = useDispatch()
+  const deleteHandler = async(item) =>{
+    await CallService.deleteCall(dispatch,item._id)
+  }
   return (
     <div className="scroll-bar">
       <h2>Ofitsiyan chaqiruvlar</h2>
@@ -41,7 +46,7 @@ const Call = () => {
                   </div>
                 </div>
                 <div className="btn-and-info">
-                  <button className="btn btn-primary">Qabul Qilish</button>
+                  <button className="btn btn-primary" onClick={() => deleteHandler(item)}>Qabul Qilish</button>
                   <p>{`${moment(item.orderedAt).format(
                     "DD.MM.YYYY"
                   )}, ${new Date(item.orderedAt).getHours()}:${
