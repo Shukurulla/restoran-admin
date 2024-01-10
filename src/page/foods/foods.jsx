@@ -40,7 +40,7 @@ const Foods = () => {
             <option value={item.title}>{item.title}</option>
           ))}
         </select>
-        <Link to={"/add-food"} className="btn btn-primary">
+        <Link to={"/restoran/add-food"} className="btn btn-primary">
           Taom Qoshish
         </Link>
       </div>

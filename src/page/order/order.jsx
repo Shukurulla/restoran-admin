@@ -51,7 +51,19 @@ const Order = () => {
         <div className="col-lg-4 col-md-4 col-sm-12">
           <div
             className="order-info-box"
-            onClick={() => navigate("/restoran/orders/food")}
+            onClick={() => navigate("/restoran/orders/call")}
+          >
+            {orders.length > 0 && <div className="msg">{orders.length}</div>}
+            <div className="icon-box">
+              <i className="bi bi-bell"></i>
+            </div>
+            <div className="title">Ofitsiyant Chaqiruv</div>
+          </div>
+        </div>
+        <div className="col-lg-4 col-md-4 col-sm-12">
+          <div
+            className="order-info-box"
+            onClick={() => navigate("/restoran/orders/karaoke")}
           >
             {karaoke.length > 0 && <div className="msg">{karaoke.length}</div>}
             <div className="icon-box">

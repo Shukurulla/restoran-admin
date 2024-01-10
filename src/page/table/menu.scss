@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Raleway:ital,wght@0,400;0,500;0,600;0,900;1,700;1,800&display=swap");
+.menu-content {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.801);
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .menu-ui {
+    background-image: url("../../../public/bg-menu.jpg");
+    height: 700px;
+    position: relative;
+    width: 400px;
+    background-size: cover;
+    &::after {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      content: "";
+      background-color: #222b304b;
+      top: 0;
+      left: 0;
+      backdrop-filter: blur(2px);
+      backdrop-filter: blur(10px);
+    }
+    .menu-brand {
+      position: relative;
+      z-index: 99;
+      .logo {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        h3 {
+          font-size: 70px;
+        }
+      }
+      .menu-info {
+        width: 80%;
+        margin: auto;
+        border-radius: 15px;
+        padding: 30px;
+        padding-top: 15px;
+        font-family: "Raleway", sans-serif;
+        background-color: #ffffffb9;
+        color: #111;
+        h4 {
+          text-align: center;
+          font-weight: 600;
+        }
+        h5 {
+          font-size: 17px;
+          font-weight: 600;
+        }
+        .info-items {
+          display: flex;
+          align-items: center;
+          margin-top: 15px;
+          width: 100%;
+          gap: 10px;
+          span {
+            width: 25px;
+            height: 25px;
+            background-color: #111;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 45pc;
+          }
+          p {
+            padding: 0;
+            margin: 0;
+            width: 80%;
+          }
+        }
+      }
+    }
+    .qr-box {
+      display: flex;
+      position: relative;
+      z-index: 99;
+      margin-top: 30px;
+      justify-content: space-around;
+      .scan {
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        color: #111;
+        text-align: center;
+        font-weight: 600;
+        p {
+          margin: 0;
+          padding: 0;
+          margin-top: 10px;
+        }
+      }
+      img {
+        width: 100px;
+      }
+    }
+  }
+}

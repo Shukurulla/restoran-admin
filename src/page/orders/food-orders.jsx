@@ -18,7 +18,6 @@ const FoodOrders = () => {
         tableId: item.tableId,
         orderType: "food",
         tableNumber: tables.filter((c) => c._id == item.tableId)[0].tableNumber,
-        numberOfPeople,
       };
       try {
         SavedService.postSaved(dispatch, data);
@@ -33,7 +32,6 @@ const FoodOrders = () => {
         orderType: "food",
         tableNumber: tables.filter((c) => c._id == item.tableId)[0].tableNumber,
         place: "first",
-        numberOfPeople,
       };
       try {
         SavedService.postSaved(dispatch, data);

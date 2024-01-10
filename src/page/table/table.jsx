@@ -10,12 +10,15 @@ import {
   getTableSuccess,
 } from "../../redux/slice/table";
 import TableService from "../../service/table";
+import MenuUi from "./menu-ui";
 
 const Table = () => {
   const [addShow, setAddShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [id, setId] = useState(0);
+  const [openMenu, setOpenMenu] = useState(false);
   const { tables } = useSelector((state) => state.table);
+  const [item, setItem] = useState({});
 
   const dispatch = useDispatch();
 
@@ -39,12 +42,18 @@ const Table = () => {
     }
   };
 
+  const showMenuHandler = (item) => {
+    setItem(item);
+    setOpenMenu(true);
+  };
+
   return (
     <div className="scroll-bar">
       {addShow && <AddTable setState={setAddShow} state={addShow} />}
       {editShow && (
         <EditTable setState={setEditShow} state={editShow} id={id} />
       )}
+      {openMenu && <MenuUi item={item} setState={setOpenMenu} />}
       <div className="category-header d-flex align-items-center justify-content-between">
         <div></div>
         <h3>Stollar ({tables.length})</h3>
@@ -62,6 +71,9 @@ const Table = () => {
             <th scope="col">Stol Nomi</th>
             <th scope="col">-</th>
             <th scope="col">Link</th>
+            <th scope="col">
+              <i className="bi bi-qr-code-scan"></i>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -117,6 +129,14 @@ const Table = () => {
                 >
                   Saytga otish
                 </a>
+              </td>
+              <td>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => showMenuHandler(item)}
+                >
+                  Menuni korish
+                </button>
               </td>
             </tr>
           ))}

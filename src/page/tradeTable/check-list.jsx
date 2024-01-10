@@ -19,35 +19,35 @@ const CheckList = ({ id, setState }) => {
   const equalTrade = saved.filter((c) => c.tableId == id);
 
   const foods = equalTrade?.filter((item) => item.orderType == "food");
-  const musics = equalTrade?.filter((item) => item.orderType == "music");
+  const karaoke = equalTrade?.filter((item) => item.orderType == "karaoke");
 
-  const firstOrder = equalTrade.filter((c) => c.place == "first")[0];
+  const firstOrder = equalTrade?.filter((c) => c.place == "first")[0];
   var hozirgiVaqt = new Date();
-  var buyurtmaVaqtiObj = new Date(firstOrder.savedOrder.orderedAt);
+  var buyurtmaVaqtiObj = new Date(firstOrder?.savedOrder?.orderedAt);
   var farq = hozirgiVaqt - buyurtmaVaqtiObj;
   var farqDaqiqa = Math.floor(farq / (1000 * 60));
+
+  var karaokeTime = new Date(karaoke[0]?.savedOrder.item?.orderedAt);
+  var now = hozirgiVaqt - karaokeTime;
+  var minutes = Math.floor(now / (1000 * 60));
 
   const f = new Intl.NumberFormat("es-sp");
   const hour = new Date().getHours();
 
-  const foodPrice = foods
-    .map((item) => +item.savedOrder.totalPrice)
-    .reduce((sum, num) => sum + num);
-
-  const musicPrice =
-    musics.length > 0
-      ? musics
-          ?.map((item) => +item.savedOrder.price)
-          ?.reduce((sum, num) => sum + num)
-      : 0;
-
-  const discount = firstOrder.savedOrder.discount == true ? 10 : 0;
+  const foodPrice = eval(
+    foods?.map((item) => +item.savedOrder.totalPrice).join("+")
+  );
+  console.log(foods);
+  const discount = firstOrder?.savedOrder?.discount == true ? 10 : 0;
   const tablePrice =
     (tables.filter((c) => c._id == id)[0].surcharge / 60) * farqDaqiqa;
   const service = hour > 18 && hour > 4 ? 15 / 100 : 10 / 100;
 
   const totalPrice =
-    equalTrade[0].numberOfPeople * 7000 + foodPrice + +musicPrice + tablePrice;
+    (minutes ? minutes * (20000 / 60) : 0) +
+    equalTrade[0].numberOfPeople * 7000 +
+    foodPrice +
+    +tablePrice;
 
   const isDiscount =
     discount === 0
@@ -64,8 +64,8 @@ const CheckList = ({ id, setState }) => {
   const submitHandler = (status) => {
     const paymentSchema = {
       order: {
-        tableName: firstOrder.savedOrder.tableName,
-        orderedAt: firstOrder.savedOrder.orderedAt,
+        tableName: firstOrder?.savedOrder?.tableName,
+        orderedAt: firstOrder?.savedOrder?.orderedAt,
         totalPrice: totalPrice - (totalPrice * discount) / 100,
       },
       status,
@@ -85,7 +85,9 @@ const CheckList = ({ id, setState }) => {
   };
 
   useEffect(() => {
-    console.log(equalTrade);
+    console.log(
+      foods.map((item) => item.savedOrder.allOrders.forEach((item) => item))
+    );
   }, []);
 
   const debtSchema = {
@@ -94,8 +96,8 @@ const CheckList = ({ id, setState }) => {
     gage,
     paymentTerm: dedline,
     orders: {
-      tableName: firstOrder.savedOrder.tableName,
-      orderedAt: firstOrder.savedOrder.orderedAt,
+      tableName: firstOrder?.savedOrder?.tableName,
+      orderedAt: firstOrder?.savedOrder?.orderedAt,
       totalPrice: isDiscount,
       similarOrder: equalTrade,
     },
@@ -120,16 +122,17 @@ const CheckList = ({ id, setState }) => {
           </div>
           <ul>
             <li>
-              Vaqt soatiga {f.format(firstOrder.savedOrder.surcharge)} so'm:
+              Bandlik soatiga {f.format(firstOrder?.savedOrder?.surcharge)}{" "}
+              so'm:
               <ul>
                 <li>
                   Buyurtma vaqti:{" "}
-                  {`${moment(firstOrder.savedOrder.orderedAt).format(
+                  {`${moment(firstOrder?.savedOrder?.orderedAt).format(
                     "DD.MM.YYYY"
                   )}, ${new Date(
-                    firstOrder.savedOrder.orderedAt
+                    firstOrder?.savedOrder?.orderedAt
                   ).getHours()}:${new Date(
-                    firstOrder.savedOrder.orderedAt
+                    firstOrder?.savedOrder?.orderedAt
                   ).getMinutes()}`}
                 </li>
                 <li>
@@ -149,7 +152,7 @@ const CheckList = ({ id, setState }) => {
                   {f.format(
                     (
                       (farqDaqiqa / 60) *
-                      firstOrder.savedOrder.surcharge
+                      firstOrder?.savedOrder?.surcharge
                     ).toFixed(0)
                   )}{" "}
                   so'm
@@ -184,15 +187,38 @@ const CheckList = ({ id, setState }) => {
                 <li>Jami summa: {f.format(foodPrice)} so'm</li>
               </ul>
             </li>
+            {tables.filter((c) => c._id == equalTrade[0]?.tableId)[0].forDJ ==
+              true && (
+              <li>
+                Musiqa uchun: {f.format(equalTrade[0]?.numberOfPeople * 7000)}
+                so'm
+              </li>
+            )}
 
+            {karaoke.length > 0 && (
+              <li>
+                Karaoke uchun 20.000 so'm:
+                <ul>
+                  <li>
+                    Bandlik:{" "}
+                    {minutes / 60 >= 1
+                      ? `${(minutes / 60).toFixed(2)} soat`
+                      : `${minutes.toFixed(0)} daqiqa`}
+                  </li>
+                  <li>
+                    Jami: {f.format((minutes * (20000 / 60)).toFixed())} som
+                  </li>
+                </ul>
+              </li>
+            )}
             <li>
               Xizmat korsatish Narxi {service * 100}% :{" "}
               {f.format(ofitsiantPrice.toFixed(0))} so'm
             </li>
             <li>
               Tushlik uchun (12:00-15:00) chegirma 10%:{" "}
-              {firstOrder.savedOrder.discount == true
-                ? `${f.format(totalPrice * 0.1)} so'm`
+              {firstOrder?.savedOrder?.discount == true
+                ? `${f.format((totalPrice * 0.1).toFixed(0))} so'm`
                 : "chegirma mavjud emas"}
             </li>
             <li>Jami hisob: {f.format(isDiscount)} so'm</li>

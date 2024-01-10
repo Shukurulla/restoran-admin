@@ -41,6 +41,9 @@ import PaymentService from "./service/payment";
 import DebtService from "./service/debt";
 
 import io from "socket.io-client";
+import Karaoke from "./page/orders/karaoke";
+import CallService from "./service/call";
+import Call from "./page/orders/call";
 
 const socket = io.connect("https://restoran-service.onrender.com");
 
@@ -49,6 +52,17 @@ function App() {
   const { debt } = useSelector((state) => state.debt);
 
   const [unpaid, setUnpaid] = useState([]);
+  useEffect(() => {
+    socket.on("get_order", (data) => {
+      OrderService.getOrders(dispatch);
+    });
+    socket.on("get_karaoke", (data) => {
+      KaraokeService.getKaraoke(dispatch);
+    });
+    socket.on("call-info", (data) => {
+      CallService.getCalls(dispatch);
+    });
+  }, [socket]);
 
   useEffect(() => {
     setUnpaid(
@@ -58,9 +72,8 @@ function App() {
           moment(new Date()).format("YYYYMMDD")
       )
     );
-    socket.on("get_order", (data) => {
-      OrderService.getOrders(dispatch);
-    });
+
+    CallService.getCalls(dispatch);
     musicService.getMusic(dispatch);
     getFoods(dispatch);
     getCategory(dispatch);
@@ -111,6 +124,14 @@ function App() {
         <Route
           path="/restoran/tables"
           element={<RestoranLayout activePage={<Table />} />}
+        />
+        <Route
+          path="/restoran/orders/karaoke"
+          element={<RestoranLayout activePage={<Karaoke />} />}
+        />
+        <Route
+          path="/restoran/orders/call"
+          element={<RestoranLayout activePage={<Call />} />}
         />
         <Route
           path="/restoran/orders"

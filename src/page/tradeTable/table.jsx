@@ -9,7 +9,6 @@ const TradeTable = () => {
   const { saved } = useSelector((state) => state.saved);
   const [showCheck, setShowCheck] = useState(false);
   const [id, setId] = useState("");
-  const { tables } = useSelector((state) => state.table);
   const savedId = saved.map((item) => item.tableId);
   const [uniqueArray, setUniqueArray] = useState(Array.from(new Set(savedId)));
   const [emptyMsg, setEmptMsg] = useState("Saqlangan buyurtmalar mavjud emas");

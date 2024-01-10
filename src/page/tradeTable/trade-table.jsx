@@ -7,9 +7,9 @@ const Table = ({ id, showCheckHandler }) => {
   const { saved } = useSelector((state) => state.saved);
   const [isChange, setIsChange] = useState(false);
   const peopleNumber = saved.filter((c, idx) => c.tableId == id);
-  const [number, setNumber] = useState(peopleNumber[0].numberOfPeople);
+  const [number, setNumber] = useState(peopleNumber[0]?.numberOfPeople);
   const similarOrders = saved.filter(
-    (c) => c.tableNumber == peopleNumber[0].tableNumber
+    (c) => c.tableNumber == peopleNumber[0]?.tableNumber
   );
   const dispatch = useDispatch();
 
@@ -48,7 +48,7 @@ const Table = ({ id, showCheckHandler }) => {
               </div>
             ) : (
               <div className="d-flex align-items-center gap-3">
-                <p className="p-0 m-0">{peopleNumber[0].numberOfPeople}</p>
+                <p className="p-0 m-0">{peopleNumber[0]?.numberOfPeople}</p>
                 <button
                   className="btn btn-outline-success"
                   onClick={() => setIsChange(true)}

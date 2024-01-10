@@ -16,6 +16,19 @@
 .unpaid {
   background-color: rgba(255, 0, 0, 0.192);
 }
-.btn{
+.btn {
   position: relative;
+}
+.debt-msg {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  background-color: coral;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 45pc;
+  font-size: 15px;
 }

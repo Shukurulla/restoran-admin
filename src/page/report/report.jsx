@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changePage } from "../../redux/slice/ui";
+import { addUnpaid, changePage } from "../../redux/slice/ui";
 import moment from "moment/moment";
 import "./report.scss";
 import { useNavigate } from "react-router-dom";
@@ -8,11 +8,22 @@ import SavedService from "../../service/saved-service";
 
 const Report = () => {
   const dispatch = useDispatch();
+  const { debt } = useSelector((state) => state.debt);
   const [date, setDate] = useState(moment(Date()).format("YYYY-MM-DD"));
   const f = new Intl.NumberFormat("es-sp");
   const navigate = useNavigate();
   const [filterStatus, setFilterStatus] = useState("all");
   const { unpaid } = useSelector((state) => state.ui);
+
+  useEffect(() => {
+    addUnpaid(
+      debt.filter(
+        (c) =>
+          moment(c.paymentTerm).format("YYYYMMDD") <
+          moment(new Date()).format("YYYYMMDD")
+      )
+    );
+  }, []);
 
   const payments = useSelector((state) => state.payment.payments);
   const [filterPayments, setFilteredPayments] = useState(
@@ -180,7 +191,7 @@ const Report = () => {
             Barchasi
           </div>
         </div>
-        <div className="">Jami tushum: {f.format(score)}so'm</div>
+        <div className="">Jami tushum: {f.format(score.toFixed(0))}so'm</div>
         <input
           type="date"
           value={date}
@@ -236,7 +247,7 @@ const Report = () => {
                   <td>{idx + 1}</td>
                   <td>{item.order.tableName}</td>
                   <td>{moment(item.order.orderedAt).format(" HH:mm ")}</td>
-                  <td>{f.format(item.order.totalPrice)} so'm</td>
+                  <td>{f.format(item.order.totalPrice.toFixed(0))} so'm</td>
                   <td>{item.status}</td>
                   <td>{moment(item.order.orderedAt).format("DD.MM.YYYY")}</td>
                 </tr>

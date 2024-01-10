@@ -13,6 +13,7 @@ import SavedOrders from "../slice/saved-orders";
 import MusicReducer from "../slice/music";
 import KaraokeReducer from "../slice/karaoke";
 import TradeTableReducer from "../slice/trade-table";
+import CallReducer from "../slice/call";
 
 const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ const store = configureStore({
     music: MusicReducer,
     karaoke: KaraokeReducer,
     tradeTable: TradeTableReducer,
+    call: CallReducer,
   },
   devTools: process.env.NODE_ENV != "production",
 });
