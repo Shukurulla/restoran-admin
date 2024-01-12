@@ -4,22 +4,14 @@ import { useToImage } from "@hcorta/react-to-image";
 import { useToSvg } from "@hugocxl/react-to-image";
 
 const MenuUi = ({ item, setState }) => {
-  // const { ref, isLoading, getJpeg } = useToImage({ quality: 1 });
-  const [_, convertToSvg, ref] = useToSvg({
-    quality: 2.8,
-    onSuccess: (data) => {
-      const link = document.createElement("a");
-      link.download = "my-image-name.jpeg";
-      link.href = data;
-      link.click();
-    },
-  });
+  const { ref, isLoading, getSvg } = useToImage();
+
 
   return (
     <div className="menu-content">
       <div className="w-100 ">
         <div className="menu-control text-end">
-          <button className="btn btn-light" onClick={() => convertToSvg()}>
+          <button className="btn btn-light" onClick={() => getSvg()}>
             Yuklash
           </button>
           <button
