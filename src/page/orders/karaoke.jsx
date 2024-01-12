@@ -15,9 +15,7 @@ const Karaoke = () => {
     const firstOrder = equalTrade?.filter((c) => c.place == "first");
 
     const schema = {
-      savedOrder: {
-        item,
-      },
+      savedOrder: { ...item, allOrders: [] },
       tableId: item.tableId,
       orderType: "karaoke",
       tableNumber: tables.filter((c) => c._id == item.tableId)[0].tableNumber,

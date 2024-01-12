@@ -10,9 +10,6 @@ const Router = () => {
         <Link className="btn btn-primary" to={"/restoran/protect"}>
           Restoran Admini
         </Link>
-        <Link className="btn btn-primary" to={"/dj-side/protect"}>
-          DJ Admini{" "}
-        </Link>
       </div>
     </div>
   );

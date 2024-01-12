@@ -67,7 +67,7 @@ const MenuUi = ({ item, setState }) => {
             </div>
             <div className="scan">
               <img
-                src={`http://api.qrserver.com/v1/create-qr-code/?data=https://test-restoran.netlify.app/menu/table/${item._id}&size=x&bgcolor=`}
+                src={`http://api.qrserver.com/v1/create-qr-code/?data=https://test-restoran.netlify.app/check/table/${item._id}&size=x&bgcolor=`}
                 alt=""
               />
               <p>Hisob uchun</p>

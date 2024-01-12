@@ -10,7 +10,7 @@ import Payment from "./payment";
 const Order = () => {
   const dispatch = useDispatch();
   const { orders } = useSelector((state) => state.order);
-  const { musics } = useSelector((state) => state.music);
+  const { calls } = useSelector((state) => state.call);
   const { karaoke } = useSelector((state) => state.karaoke);
   const [isPayment, setIsPayment] = useState(false);
   const [isAddOrder, setIsAddOrder] = useState(false);
@@ -53,7 +53,7 @@ const Order = () => {
             className="order-info-box"
             onClick={() => navigate("/restoran/orders/call")}
           >
-            {orders.length > 0 && <div className="msg">{orders.length}</div>}
+            {calls.length > 0 && <div className="msg">{calls.length}</div>}
             <div className="icon-box">
               <i className="bi bi-bell"></i>
             </div>

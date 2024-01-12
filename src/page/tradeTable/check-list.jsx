@@ -1,209 +1,182 @@
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import DebtService from "../../service/debt";
-import PaymentService from "../../service/payment";
-import SavedService from "../../service/saved-service";
-import "./trade-table.scss";
+import React, { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-const CheckList = ({ id, setState }) => {
-  const { saved } = useSelector((state) => state.saved);
+const CheckList = ({ id }) => {
   const { tables } = useSelector((state) => state.table);
-  const [debtWindow, setDebtWindow] = useState(false);
-  const [name, setName] = useState("");
-  const [tel, setTel] = useState("");
-  const [gage, setGage] = useState("");
-  const [dedline, setDedline] = useState("");
-  const dispatch = useDispatch();
+  const { saved } = useSelector((state) => state.saved);
+  const equalTables = saved?.filter((c) => c.tableId == id);
+  const firstOrder =
+    equalTables.length > 0 &&
+    equalTables?.filter((c) => c.place === "first")[0];
+  const hour = new Date().getHours();
 
-  const equalTrade = saved.filter((c) => c.tableId == id);
+  //Foods
+  const foods = equalTables?.filter((c) => c.orderType == "food");
+  const foodPrice =
+    foods.length > 0 &&
+    foods
+      ?.map((item) => +item.savedOrder.totalPrice)
+      ?.reduce((sum, num) => sum + num);
 
-  const foods = equalTrade?.filter((item) => item.orderType == "food");
-  const karaoke = equalTrade?.filter((item) => item.orderType == "karaoke");
+  // Musics
+  const musics = equalTables?.filter((c) => c.orderType == "music");
+  const musicPrice =
+    musics.length > 0 &&
+    musics
+      ?.map((item) =>
+        item.savedOrder.music.musics.map((music) => music.price).toString()
+      )
+      ?.reduce((sum, num) => +sum + +num);
 
-  const firstOrder = equalTrade?.filter((c) => c.place == "first")[0];
+  //Discount
+  const discount = firstOrder.savedOrder?.discount == true ? 10 : 0;
+
+  // minutes
   var hozirgiVaqt = new Date();
-  var buyurtmaVaqtiObj = new Date(firstOrder?.savedOrder?.orderedAt);
+  var buyurtmaVaqtiObj = new Date(firstOrder.savedOrder?.orderedAt);
   var farq = hozirgiVaqt - buyurtmaVaqtiObj;
   var farqDaqiqa = Math.floor(farq / (1000 * 60));
+  const tablePrice =
+    (tables?.filter((c) => c._id == id)[0]?.surcharge / 60) * farqDaqiqa;
 
-  var karaokeTime = new Date(karaoke[0]?.savedOrder.item?.orderedAt);
+  // Karaoke
+  const karaoke = equalTables?.filter((c) => c.orderType == "karaoke");
+  console.log(karaoke);
+
+  var karaokeTime = new Date(karaoke[0]?.savedOrder.orderedAt);
   var now = hozirgiVaqt - karaokeTime;
   var minutes = Math.floor(now / (1000 * 60));
 
-  const f = new Intl.NumberFormat("es-sp");
-  const hour = new Date().getHours();
-
-  const foodPrice = eval(
-    foods?.map((item) => +item.savedOrder.totalPrice).join("+")
-  );
-  console.log(foods);
-  const discount = firstOrder?.savedOrder?.discount == true ? 10 : 0;
-  const tablePrice =
-    (tables.filter((c) => c._id == id)[0].surcharge / 60) * farqDaqiqa;
-  const service = hour > 18 && hour > 4 ? 15 / 100 : 10 / 100;
+  // TotalPrice
+  const ofitsiantPersent = hour > 18 && hour > 4 ? 15 / 100 : 10 / 100;
 
   const totalPrice =
-    (minutes ? minutes * (20000 / 60) : 0) +
-    equalTrade[0].numberOfPeople * 7000 +
-    foodPrice +
-    +tablePrice;
+    (minutes ? minutes * (20000 / 60) : 0) + foodPrice + tablePrice;
 
+  //Ofitsiant
+  const ofitsiantPrice = totalPrice * ofitsiantPersent;
+  const discountPrice = (totalPrice + ofitsiantPrice) * 0.1;
   const isDiscount =
     discount === 0
-      ? (totalPrice + totalPrice * service).toFixed(0)
-      : (
-          totalPrice -
-          (totalPrice + totalPrice * service * 10) / 100 +
-          (totalPrice - (totalPrice + totalPrice * service * 10) / 100) *
-            service
-        ).toFixed(0);
-
-  const ofitsiantPrice = totalPrice * service;
-
-  const submitHandler = (status) => {
-    const paymentSchema = {
-      order: {
-        tableName: firstOrder?.savedOrder?.tableName,
-        orderedAt: firstOrder?.savedOrder?.orderedAt,
-        totalPrice: totalPrice - (totalPrice * discount) / 100,
-      },
-      status,
-      ofitsiantPrice,
-      similarOrder: equalTrade,
-    };
-    try {
-      PaymentService.postPayment(dispatch, paymentSchema);
-      equalTrade.map((item) => {
-        SavedService.deleteSaved(dispatch, item._id);
-        SavedService.getSaved(dispatch);
-      });
-      setState(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+      ? totalPrice + ofitsiantPrice
+      : totalPrice + ofitsiantPrice - discountPrice;
+  const f = new Intl.NumberFormat("es-sp");
   useEffect(() => {
-    console.log(
-      foods.map((item) => item.savedOrder.allOrders.forEach((item) => item))
-    );
+    console.log(equalTables);
   }, []);
 
-  const debtSchema = {
-    name: name,
-    phone: tel,
-    gage,
-    paymentTerm: dedline,
-    orders: {
-      tableName: firstOrder?.savedOrder?.tableName,
-      orderedAt: firstOrder?.savedOrder?.orderedAt,
-      totalPrice: isDiscount,
-      similarOrder: equalTrade,
-    },
+  const checkRef = useRef();
+
+  const screenCheck = () => {
+    const checkContent = document.querySelector("#check-content");
+    html2canvas(checkContent).then(function (canvas) {
+      console.log(canvas.toDataURL());
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL();
+      a.download = "karavan_client_check";
+      a.click();
+    });
   };
 
-  const submitDebtHandler = () => {
-    try {
-      DebtService.postDebt(dispatch, debtSchema);
-    } catch (error) {}
-  };
-
-  return (
-    <div className="check-content">
-      {debtWindow == false ? (
-        <div className="check-box">
-          <div className="check-header d-flex align-items-center justify-content-between">
-            <h4>{equalTrade[0].savedOrder.tableName}</h4>
-            <i
-              className="bi bi-x-lg pointer"
-              onClick={() => setState(false)}
-            ></i>
-          </div>
-          <ul>
+  return equalTables.length > 0 ? (
+    <div className="check-content text-light py-5">
+      <>
+        <div className="check-box" id="check-content" ref={checkRef}>
+          <h3 className="text-center">
+            {tables?.filter((c) => c._id == id)[0].tableNumber}-stol
+          </h3>
+          <ul className="">
+            <h4 className="report">Barcha hisobotlar</h4>
             <li>
-              Bandlik soatiga {f.format(firstOrder?.savedOrder?.surcharge)}{" "}
-              so'm:
+              <li className="title">
+                Vaqt (soatiga{" "}
+                {f.format(tables?.filter((c) => c._id == id)[0].surcharge)}
+                so'm) :
+              </li>
+
               <ul>
                 <li>
-                  Buyurtma vaqti:{" "}
-                  {`${moment(firstOrder?.savedOrder?.orderedAt).format(
-                    "DD.MM.YYYY"
-                  )}, ${new Date(
-                    firstOrder?.savedOrder?.orderedAt
+                  Kelgan vaqti:{" "}
+                  {`${new Date(
+                    firstOrder.savedOrder.orderedAt
                   ).getHours()}:${new Date(
-                    firstOrder?.savedOrder?.orderedAt
+                    firstOrder.savedOrder.orderedAt
                   ).getMinutes()}`}
                 </li>
                 <li>
                   Hozirgi vaqt:{" "}
-                  {`${moment(new Date()).format(
-                    "DD.MM.YYYY"
-                  )}, ${new Date().getHours()}:${new Date().getMinutes()}`}{" "}
+                  {`${new Date().getHours()}:${new Date().getMinutes()}`}{" "}
                 </li>
                 <li>
-                  Bandlik uchun jami:{" "}
-                  {farqDaqiqa / 60 >= 1
-                    ? `${(farqDaqiqa / 60).toFixed(2)} soat`
-                    : `${farqDaqiqa.toFixed(0)} daqiqa`}
+                  Oraliq:{" "}
+                  {parseInt(farqDaqiqa / 60) > 0
+                    ? `${parseInt(farqDaqiqa / 60)} soat ${
+                        farqDaqiqa % 60
+                      } daqiqa`
+                    : `${farqDaqiqa} daqiqa`}
                 </li>
-                <li>
-                  Jami summa:{" "}
-                  {f.format(
-                    (
-                      (farqDaqiqa / 60) *
-                      firstOrder?.savedOrder?.surcharge
-                    ).toFixed(0)
-                  )}{" "}
-                  so'm
-                </li>
+                <li>Jami: {f.format(tablePrice.toFixed(0))}so'm</li>
               </ul>
             </li>
-            <li>
-              Taomlar:
-              <ul>
-                {foods.map((item) => {
-                  const uniqueArray = Array.from(
-                    new Set(item.savedOrder.allOrders.map((food) => food?._id))
-                  );
-                  return (
-                    <li>
-                      {uniqueArray.map((id) => (
-                        <p className="m-0 p-0">
-                          {
-                            item.savedOrder.allOrders.filter((c) => c._id == id)
-                              .length
-                          }{" "}
-                          {
-                            item.savedOrder.allOrders.filter(
-                              (c) => c._id == id
-                            )[0]?.foodName
-                          }
-                        </p>
-                      ))}
-                    </li>
-                  );
-                })}
-                <li>Jami summa: {f.format(foodPrice)} so'm</li>
-              </ul>
-            </li>
-            {tables.filter((c) => c._id == equalTrade[0]?.tableId)[0].forDJ ==
-              true && (
+            {foods.length > 0 && (
               <li>
-                Musiqa uchun: {f.format(equalTrade[0]?.numberOfPeople * 7000)}
-                so'm
+                <li className="title">Taomlar:</li>
+                <ul>
+                  {foods.map((item) => {
+                    const uniqueArray = Array.from(
+                      new Set(
+                        item.savedOrder.allOrders.map((food) => food?._id)
+                      )
+                    );
+                    return (
+                      <li className="check-food-item">
+                        {uniqueArray.map((id) => (
+                          <p className="m-0 p-0">
+                            <span>
+                              {" "}
+                              {
+                                item.savedOrder.allOrders.filter(
+                                  (c) => c._id == id
+                                ).length
+                              }{" "}
+                              {
+                                item.savedOrder.allOrders.filter(
+                                  (c) => c._id == id
+                                )[0]?.foodName
+                              }
+                            </span>
+                          </p>
+                        ))}
+                      </li>
+                    );
+                  })}
+                  <li>Jami: {f.format(foodPrice)} so'm</li>
+                </ul>
               </li>
             )}
-
+            {musics.length > 0 && (
+              <li>
+                <li className="title"> Musiqalar :</li>
+                <ul>
+                  {musics.map((music) =>
+                    music.savedOrder.music.musics.map((item) => (
+                      <li>{item.musicName}.mp3</li>
+                    ))
+                  )}
+                  <li>Jami: {f.format(musicPrice)}so'm</li>
+                </ul>
+              </li>
+            )}
             {karaoke.length > 0 && (
               <li>
                 Karaoke uchun 20.000 so'm:
                 <ul>
                   <li>
                     Bandlik:{" "}
-                    {minutes / 60 >= 1
-                      ? `${(minutes / 60).toFixed(2)} soat`
-                      : `${minutes.toFixed(0)} daqiqa`}
+                    {parseInt(minutes / 60) > 0
+                      ? `${parseInt(minutes / 60)} soat ${minutes % 60} daqiqa`
+                      : `${minutes} daqiqa`}
                   </li>
                   <li>
                     Jami: {f.format((minutes * (20000 / 60)).toFixed())} som
@@ -211,85 +184,40 @@ const CheckList = ({ id, setState }) => {
                 </ul>
               </li>
             )}
-            <li>
-              Xizmat korsatish Narxi {service * 100}% :{" "}
-              {f.format(ofitsiantPrice.toFixed(0))} so'm
-            </li>
-            <li>
+            <li className="">
               Tushlik uchun (12:00-15:00) chegirma 10%:{" "}
-              {firstOrder?.savedOrder?.discount == true
-                ? `${f.format((totalPrice * 0.1).toFixed(0))} so'm`
+              {firstOrder.savedOrder.discount == true
+                ? `${f.format(discountPrice.toFixed(0))} so'm`
                 : "chegirma mavjud emas"}
             </li>
-            <li>Jami hisob: {f.format(isDiscount)} so'm</li>
+            <li className="">
+              Ofitsiant xizmati uchun ({ofitsiantPersent * 100}%) :{" "}
+              {f.format(ofitsiantPrice.toFixed(0))}so'm
+            </li>
           </ul>
-
-          <button
-            className="btn btn-primary"
-            onClick={() => submitHandler("Naqt toladi")}
-          >
-            Naqt to'lash
-          </button>
-          <button
-            className="btn btn-outline-primary mx-2"
-            onClick={() => submitHandler("Plastik Karta")}
-          >
-            Plastik
-          </button>
-          <button
-            className="btn btn-warning"
-            onClick={() => setDebtWindow(true)}
-          >
-            Qarzga
-          </button>
-        </div>
-      ) : (
-        <div className="check-box w-50 mx-auto">
-          <h3>Qarzga qo'shish</h3>
-          <input
-            type="text"
-            placeholder="Qarzdorning ismi..."
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="form-input"
-          />
-          <input
-            type="number"
-            placeholder="Telefon raqami..."
-            value={tel}
-            onChange={(e) => setTel(e.target.value)}
-            className="form-input"
-          />
-          <input
-            type="text"
-            placeholder="Garov sifatida..."
-            value={gage}
-            onChange={(e) => setGage(e.target.value)}
-            className="form-input"
-          />
-          <input
-            type="date"
-            value={dedline}
-            onChange={(e) => setDedline(e.target.value)}
-            className="form-input"
-          />
+          <h5 className="px-3">
+            Jami Hisob:{" "}
+            {f.format(
+              discount === 0
+                ? (totalPrice + totalPrice * ofitsiantPersent).toFixed(0)
+                : isDiscount.toFixed(0)
+            )}
+            so'm
+          </h5>
           <div className="d-flex align-items-center justify-content-between">
-            <button
-              className="btn btn-outline-primary"
-              onClick={() => setDebtWindow(false)}
-            >
-              Orqaga
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => submitDebtHandler()}
-            >
-              Yuborish
-            </button>
+            <div>
+              <button className="btn btn-primary">To'lash</button>
+              <button className="btn btn-outline-primary mx-2">
+                Plastik karta
+              </button>
+            </div>
+            <button className="btn btn-warning">Qarzga</button>
           </div>
         </div>
-      )}
+      </>
     </div>
+  ) : (
+    <div className="relative text-light msg">Buyurtmalar mavjud emas</div>
   );
 };
 

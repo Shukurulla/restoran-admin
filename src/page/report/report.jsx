@@ -247,7 +247,7 @@ const Report = () => {
                   <td>{idx + 1}</td>
                   <td>{item.order.tableName}</td>
                   <td>{moment(item.order.orderedAt).format(" HH:mm ")}</td>
-                  <td>{f.format(item.order.totalPrice.toFixed(0))} so'm</td>
+                  <td>{f.format(item.order.totalPrice)} so'm</td>
                   <td>{item.status}</td>
                   <td>{moment(item.order.orderedAt).format("DD.MM.YYYY")}</td>
                 </tr>

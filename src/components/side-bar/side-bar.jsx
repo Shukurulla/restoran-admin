@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { navItems } from "../../constants";
 import { Link } from "react-router-dom";
 import "./side-bar.scss";
@@ -7,10 +7,12 @@ import { useSelector } from "react-redux";
 const SideBar = () => {
   const { activePage } = useSelector((state) => state.ui);
   const { orders } = useSelector((state) => state.order);
-  const newOrders = orders.filter((c) => c.isNew === "true");
+  const { calls } = useSelector((state) => state.call);
+  const { karaoke } = useSelector((state) => state.karaoke);
+  const newOrders = calls.length + karaoke.length + orders.length;
+  let notification = false;
 
-  document.title =
-    newOrders.length > 0 ? `(${newOrders.length})` + " Restoran" : "Restoran";
+  document.title = newOrders > 0 ? `(${newOrders}) Restoran` : "Restoran";
 
   return (
     <div className="sideBar">
@@ -30,8 +32,10 @@ const SideBar = () => {
                 </div>
                 <div className="div">
                   {item.title === "Yangi Buyurtmalar" ? (
-                    newOrders.length > 0 ? (
-                      <span className="message">{newOrders.length}</span>
+                    newOrders > 0 ? (
+                      <span className="message">
+                        {calls.length + karaoke.length + orders.length}
+                      </span>
                     ) : (
                       ""
                     )
