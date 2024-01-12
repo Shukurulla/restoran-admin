@@ -68,17 +68,6 @@ const CheckList = ({ id }) => {
 
   const checkRef = useRef();
 
-  const screenCheck = () => {
-    const checkContent = document.querySelector("#check-content");
-    html2canvas(checkContent).then(function (canvas) {
-      console.log(canvas.toDataURL());
-      const a = document.createElement("a");
-      a.href = canvas.toDataURL();
-      a.download = "karavan_client_check";
-      a.click();
-    });
-  };
-
   return equalTables.length > 0 ? (
     <div className="check-content text-light py-5">
       <>
