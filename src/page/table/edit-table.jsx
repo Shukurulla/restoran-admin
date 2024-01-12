@@ -37,10 +37,6 @@ const EditTable = ({ setState, state, id }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(forDJ);
-  }, [forDJ]);
-
   return (
     <div className="modal-box">
       <div className="form-box">
