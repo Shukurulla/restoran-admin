@@ -44,7 +44,7 @@ import io from "socket.io-client";
 import CallService from "./service/call";
 import Call from "./page/orders/call";
 
-const socket = io.connect("https://api.kepket.uz");
+const socket = io.connect("https://kepket.kerek.uz");
 
 function App() {
   const dispatch = useDispatch();

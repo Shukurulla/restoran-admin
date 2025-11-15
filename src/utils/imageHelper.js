@@ -4,7 +4,7 @@ export const getImageUrl = (imagePath) => {
 
   // Agar rasm /images bilan boshlansa, base URL qo'shamiz
   if (imagePath.startsWith("/images")) {
-    return `https://api.kepket.uz${imagePath}`;
+    return `https://kepket.kerek.uz${imagePath}`;
   }
 
   // Agar rasm to'liq URL bo'lsa, o'zini qaytaramiz
@@ -13,5 +13,5 @@ export const getImageUrl = (imagePath) => {
   }
 
   // Boshqa hollarda base URL qo'shamiz
-  return `https://api.kepket.uz${imagePath}`;
+  return `https://kepket.kerek.uz${imagePath}`;
 };
