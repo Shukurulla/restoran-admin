@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getFoodsStart, getFoodsSuccess } from "../../redux/slice/foods";
 import FoodService from "../../service/foodSerive";
 import { changePage } from "../../redux/slice/ui";
+import { getImageUrl } from "../../utils/imageHelper";
 
 const EditFood = () => {
   const dispatch = useDispatch();
@@ -83,7 +84,7 @@ const EditFood = () => {
       <div className="col-lg-6 col-md-12">
         <div className="file">
           <label htmlFor="file" className="form-image">
-            <img src={labelImage.length == 0 ? file : labelImage} alt="" />
+            <img src={labelImage.length == 0 ? getImageUrl(file) : labelImage} alt="" />
           </label>
           <div className="filebase">
             <input type="file" onChange={(e) => changeFile(e)} />

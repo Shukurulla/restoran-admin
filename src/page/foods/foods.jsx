@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getFoodsStart, getFoodsSuccess } from "../../redux/slice/foods";
 import { changePage } from "../../redux/slice/ui";
 import FoodService from "../../service/foodSerive";
+import { getImageUrl } from "../../utils/imageHelper";
 
 const Foods = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const Foods = () => {
               style={{ backgroundColor: "#374164" }}
             >
               <div className="card-image" style={{ height: "200px" }}>
-                <img src={item.image} className="w-100 rounded h-100" alt="" />
+                <img src={getImageUrl(item.image)} className="w-100 rounded h-100" alt={item.foodName} />
               </div>
               <div className="card-body">
                 <p className="card-text">{item.foodName}</p>

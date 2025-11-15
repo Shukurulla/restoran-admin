@@ -47,7 +47,7 @@ const DjLayout = ({ activePage }) => {
       </div>
       <div className="col-lg-9 m-0 p-0 col-md-8 col-sm-12">
         <div className="dj-header pt-3 pb-1 ">
-          <h3>Restoran Logo</h3>
+          <h3>KepKet</h3>
         </div>
         <div className="">{activePage}</div>
       </div>

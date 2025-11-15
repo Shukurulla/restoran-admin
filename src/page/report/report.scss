@@ -1,3 +1,425 @@
+.report-page {
+  padding: 20px;
+
+  .report-header-new {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+
+    .header-left {
+      h2 {
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 5px 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        i {
+          color: #10b981;
+        }
+      }
+
+      .subtitle {
+        margin: 0;
+        color: #8e9aaf;
+        font-size: 14px;
+      }
+    }
+
+    .debt-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+      }
+
+      .debt-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #fff;
+        color: #ef4444;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  .stats-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+
+    .stat-card {
+      background: linear-gradient(135deg, #404a6e 0%, #353f5e 100%);
+      border-radius: 15px;
+      padding: 25px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .stat-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        flex-shrink: 0;
+      }
+
+      .stat-content {
+        flex: 1;
+
+        h4 {
+          font-size: 14px;
+          color: #8e9aaf;
+          margin: 0 0 8px 0;
+          font-weight: 500;
+        }
+
+        h2 {
+          font-size: 28px;
+          font-weight: 700;
+          margin: 0;
+          color: #fff;
+        }
+      }
+
+      &.total {
+        border-left-color: #10b981;
+        .stat-icon {
+          background: linear-gradient(135deg, #10b981, #059669);
+          color: #fff;
+        }
+      }
+
+      &.orders {
+        border-left-color: #3b82f6;
+        .stat-icon {
+          background: linear-gradient(135deg, #3b82f6, #2563eb);
+          color: #fff;
+        }
+      }
+
+      &.cash {
+        border-left-color: #f59e0b;
+        .stat-icon {
+          background: linear-gradient(135deg, #f59e0b, #d97706);
+          color: #fff;
+        }
+      }
+
+      &.card-payment {
+        border-left-color: #8b5cf6;
+        .stat-icon {
+          background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .filter-panel {
+    background: linear-gradient(135deg, #404a6e 0%, #353f5e 100%);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    .period-filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+
+      .filter-btn {
+        padding: 10px 20px;
+        border: 2px solid #4a5578;
+        background: transparent;
+        color: #8e9aaf;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        i {
+          font-size: 16px;
+        }
+
+        &:hover {
+          border-color: #3b82f6;
+          color: #fff;
+          background: rgba(59, 130, 246, 0.1);
+        }
+
+        &.active {
+          background: linear-gradient(135deg, #3b82f6, #2563eb);
+          border-color: #3b82f6;
+          color: #fff;
+          box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+      }
+    }
+
+    .date-picker-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #2d3134;
+      padding: 10px 15px;
+      border-radius: 10px;
+
+      i {
+        color: #3b82f6;
+        font-size: 18px;
+      }
+
+      .date-input {
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        outline: none;
+        cursor: pointer;
+
+        &::-webkit-calendar-picker-indicator {
+          filter: invert(1);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .payment-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    .payment-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: 2px solid #4a5578;
+      background: linear-gradient(135deg, #404a6e 0%, #353f5e 100%);
+      color: #8e9aaf;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      i {
+        font-size: 18px;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        border-color: #8b5cf6;
+        color: #fff;
+      }
+
+      &.active {
+        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        border-color: #8b5cf6;
+        color: #fff;
+        box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+      }
+    }
+  }
+
+  .report-table-wrapper {
+    background: linear-gradient(135deg, #404a6e 0%, #353f5e 100%);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+
+    .modern-table {
+      width: 100%;
+      border-collapse: collapse;
+
+      thead {
+        background: linear-gradient(135deg, #2d3134, #1d2339);
+
+        th {
+          padding: 18px 15px;
+          text-align: left;
+          font-size: 14px;
+          font-weight: 700;
+          color: #fff;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          border-bottom: 2px solid #4a5578;
+        }
+      }
+
+      tbody {
+        tr {
+          transition: all 0.3s ease;
+          border-bottom: 1px solid #4a5578;
+
+          &:hover {
+            background: rgba(59, 130, 246, 0.1);
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          td {
+            padding: 15px;
+            font-size: 14px;
+            color: #fff;
+
+            .row-number {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 32px;
+              height: 32px;
+              background: linear-gradient(135deg, #3b82f6, #2563eb);
+              border-radius: 8px;
+              font-weight: 700;
+              font-size: 13px;
+            }
+
+            .table-cell {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+
+              i {
+                color: #3b82f6;
+                font-size: 18px;
+              }
+
+              strong {
+                font-weight: 600;
+              }
+            }
+
+            .time-badge {
+              display: inline-flex;
+              align-items: center;
+              gap: 6px;
+              padding: 6px 12px;
+              background: rgba(59, 130, 246, 0.2);
+              border-radius: 8px;
+              color: #60a5fa;
+              font-weight: 600;
+              font-size: 13px;
+
+              i {
+                font-size: 14px;
+              }
+            }
+
+            .price-badge {
+              display: inline-block;
+              padding: 6px 12px;
+              background: linear-gradient(135deg, #10b981, #059669);
+              border-radius: 8px;
+              color: #fff;
+              font-weight: 700;
+              font-size: 14px;
+            }
+
+            .status-badge {
+              display: inline-flex;
+              align-items: center;
+              gap: 6px;
+              padding: 6px 12px;
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 13px;
+
+              &.card {
+                background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                color: #fff;
+              }
+
+              &.cash {
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: #fff;
+              }
+
+              i {
+                font-size: 14px;
+              }
+            }
+
+            .date-text {
+              color: #8e9aaf;
+              font-weight: 500;
+            }
+
+            &.empty-state {
+              text-align: center;
+              padding: 60px 20px;
+              color: #8e9aaf;
+
+              i {
+                font-size: 64px;
+                margin-bottom: 15px;
+                opacity: 0.5;
+                display: block;
+              }
+
+              p {
+                margin: 0;
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Eski kod uchun fallback
 .report-header {
   display: flex;
   align-items: center;
@@ -9,6 +431,7 @@
   align-items: center;
   justify-content: space-between;
 }
+
 .h-60 {
   height: 70vh;
 }
@@ -16,9 +439,11 @@
 .unpaid {
   background-color: rgba(255, 0, 0, 0.192);
 }
+
 .btn {
   position: relative;
 }
+
 .debt-msg {
   position: absolute;
   top: -10px;
@@ -32,6 +457,7 @@
   border-radius: 45pc;
   font-size: 15px;
 }
+
 .payment-box {
   position: absolute;
   width: 100%;
@@ -43,6 +469,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   .alert {
     background-color: #171e30;
     width: 60%;

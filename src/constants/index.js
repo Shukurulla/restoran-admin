@@ -19,7 +19,11 @@ export const navItems = [
     link: "/restoran/report",
     icon: "bi-graph-up-arrow",
   },
-
+  {
+    title: "Ofitsiyantlar",
+    link: "/restoran/waiters",
+    icon: "bi-person-badge",
+  },
   {
     title: "Taomlar",
     link: "/restoran/foods",

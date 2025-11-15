@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 import { addUnpaid, changePage } from "../../redux/slice/ui";
 import moment from "moment/moment";
 import "./report.scss";
@@ -142,120 +143,288 @@ const Report = () => {
     },
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
+
+  const statCardVariants = {
+    hidden: { opacity: 0, scale: 0.9, y: 20 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+      },
+    },
+  };
+
+  const tableRowVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.3,
+      },
+    },
+  };
+
   return (
-    <div>
-      <div className="report-header">
-        <h2>Hisobotlar</h2>
-        <div
-          className="btn btn-danger "
+    <motion.div
+      className="report-page"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <motion.div className="report-header-new" variants={headerVariants}>
+        <div className="header-left">
+          <h2>
+            <i className="bi bi-graph-up-arrow"></i> Hisobotlar
+          </h2>
+          <p className="subtitle">Moliyaviy ma'lumotlar va statistika</p>
+        </div>
+        <button
+          className="debt-btn"
           onClick={() => navigate("/restoran/report/debt")}
         >
+          <i className="bi bi-exclamation-triangle"></i>
           Qarzdorlar
           {unpaid.length > 0 && (
-            <span className="debt-msg">{unpaid.length}</span>
+            <span className="debt-badge">{unpaid.length}</span>
           )}
-        </div>
-      </div>
-      <div className="report-options">
-        <div className="btn-group">
-          <div
-            className={`btn  ${
-              activeBtn == "thisDay" ? "btn-primary" : "btn-outline-primary"
-            }`}
+        </button>
+      </motion.div>
+
+      {/* Statistika kartlari */}
+      <motion.div className="stats-summary" variants={containerVariants}>
+        <motion.div
+          className="stat-card total"
+          variants={statCardVariants}
+          whileHover={{ y: -5, scale: 1.02 }}
+        >
+          <div className="stat-icon">
+            <i className="bi bi-cash-stack"></i>
+          </div>
+          <div className="stat-content">
+            <h4>Jami Tushum</h4>
+            <h2>{f.format(score.toFixed(0))} so'm</h2>
+          </div>
+        </motion.div>
+        <motion.div
+          className="stat-card orders"
+          variants={statCardVariants}
+          whileHover={{ y: -5, scale: 1.02 }}
+        >
+          <div className="stat-icon">
+            <i className="bi bi-receipt"></i>
+          </div>
+          <div className="stat-content">
+            <h4>Buyurtmalar Soni</h4>
+            <h2>{filterPayments.length}</h2>
+          </div>
+        </motion.div>
+        <motion.div
+          className="stat-card cash"
+          variants={statCardVariants}
+          whileHover={{ y: -5, scale: 1.02 }}
+        >
+          <div className="stat-icon">
+            <i className="bi bi-wallet2"></i>
+          </div>
+          <div className="stat-content">
+            <h4>Naqt To'lov</h4>
+            <h2>
+              {filterPayments.filter((p) => p.status === "Naqt toladi").length}
+            </h2>
+          </div>
+        </motion.div>
+        <motion.div
+          className="stat-card card-payment"
+          variants={statCardVariants}
+          whileHover={{ y: -5, scale: 1.02 }}
+        >
+          <div className="stat-icon">
+            <i className="bi bi-credit-card"></i>
+          </div>
+          <div className="stat-content">
+            <h4>Plastik Karta</h4>
+            <h2>
+              {filterPayments.filter((p) => p.status === "Plastik Karta").length}
+            </h2>
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Filter panel */}
+      <div className="filter-panel">
+        <div className="period-filters">
+          <button
+            className={`filter-btn ${activeBtn === "thisDay" ? "active" : ""}`}
             onClick={() => thisDay()}
           >
+            <i className="bi bi-calendar-day"></i>
             Bugungi
-          </div>
-          <div
-            className={`btn ${
-              activeBtn === "thisMonth" ? "btn-primary" : "btn-outline-primary"
-            }`}
+          </button>
+          <button
+            className={`filter-btn ${activeBtn === "thisMonth" ? "active" : ""}`}
             onClick={() => thisMonth()}
           >
+            <i className="bi bi-calendar-month"></i>
             Shu oy
-          </div>
-          <div
-            className={`btn ${
-              activeBtn == "thisYear" ? "btn-primary" : "btn-outline-primary"
-            }`}
+          </button>
+          <button
+            className={`filter-btn ${activeBtn === "thisYear" ? "active" : ""}`}
             onClick={() => thisYear()}
           >
+            <i className="bi bi-calendar-range"></i>
             Shu yil
-          </div>
-          <div
-            className={`btn ${
-              activeBtn == "all" ? "btn-primary" : "btn-outline-primary"
-            }`}
+          </button>
+          <button
+            className={`filter-btn ${activeBtn === "allDate" ? "active" : ""}`}
             onClick={() => allDate()}
           >
+            <i className="bi bi-calendar3"></i>
             Barchasi
-          </div>
+          </button>
         </div>
-        <div className="">Jami tushum: {f.format(score.toFixed(0))}so'm</div>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+
+        <div className="date-picker-wrapper">
+          <i className="bi bi-calendar-event"></i>
+          <input
+            type="date"
+            className="date-input"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </div>
       </div>
-      <div className="btn-group mt-3">
+
+      {/* Payment type filters */}
+      <div className="payment-filters">
         <button
           onClick={() => filters.all()}
-          className={`btn ${
-            filterStatus == "all" ? "btn-primary" : "btn-outline-primary"
-          }`}
+          className={`payment-btn ${filterStatus === "all" ? "active" : ""}`}
         >
+          <i className="bi bi-list-ul"></i>
           Barchasi
         </button>
         <button
-          className={`btn ${
-            filterStatus == "Naqt toladi"
-              ? "btn-primary"
-              : "btn-outline-primary"
+          className={`payment-btn ${
+            filterStatus === "Naqt toladi" ? "active" : ""
           }`}
           onClick={() => filters.naqt()}
         >
-          Naqt Tolaganlar
+          <i className="bi bi-cash"></i>
+          Naqt To'lov
         </button>
         <button
-          className={`btn ${
-            filterStatus == "Plastik Karta"
-              ? "btn-primary"
-              : "btn-outline-primary"
+          className={`payment-btn ${
+            filterStatus === "Plastik Karta" ? "active" : ""
           }`}
           onClick={() => filters.plastik()}
         >
-          Plastik Kartaga
+          <i className="bi bi-credit-card-2-front"></i>
+          Plastik Karta
         </button>
       </div>
-      <div className="scroll-bar h-60 bg">
-        <table className="table bg-transparent table-striped ">
+
+      {/* Table */}
+      <div className="report-table-wrapper">
+        <table className="modern-table">
           <thead>
-            <th>No.</th>
-            <th>Stol Nomi</th>
-            <th>Buyurtma vaqti</th>
-            <th>Buyurtma summasi</th>
-            <th>Status</th>
-            <th>Sanasi</th>
+            <tr>
+              <th>№</th>
+              <th>Stol</th>
+              <th>Vaqt</th>
+              <th>Summa</th>
+              <th>To'lov Turi</th>
+              <th>Sana</th>
+            </tr>
           </thead>
           <tbody>
-            {filterPayments
-              .slice()
-              .reverse()
-              .map((item, idx) => (
-                <tr>
-                  <td>{idx + 1}</td>
-                  <td>{item.order.tableName}</td>
-                  <td>{moment(item.order.orderedAt).format(" HH:mm ")}</td>
-                  <td>{f.format(item.order.totalPrice)} so'm</td>
-                  <td>{item.status}</td>
-                  <td>{moment(item.order.orderedAt).format("DD.MM.YYYY")}</td>
-                </tr>
-              ))}
+            {filterPayments.length > 0 ? (
+              filterPayments
+                .slice()
+                .reverse()
+                .map((item, idx) => (
+                  <motion.tr
+                    key={idx}
+                    variants={tableRowVariants}
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ delay: idx * 0.05 }}
+                  >
+                    <td>
+                      <span className="row-number">{idx + 1}</span>
+                    </td>
+                    <td>
+                      <div className="table-cell">
+                        <i className="bi bi-table"></i>
+                        <strong>{item.order.tableName}</strong>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="time-badge">
+                        <i className="bi bi-clock"></i>
+                        {moment(item.order.orderedAt).format("HH:mm")}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="price-badge">
+                        {f.format(item.order.totalPrice)} so'm
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        className={`status-badge ${
+                          item.status === "Plastik Karta" ? "card" : "cash"
+                        }`}
+                      >
+                        {item.status === "Plastik Karta" ? (
+                          <i className="bi bi-credit-card"></i>
+                        ) : (
+                          <i className="bi bi-cash"></i>
+                        )}
+                        {item.status}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="date-text">
+                        {moment(item.order.orderedAt).format("DD.MM.YYYY")}
+                      </span>
+                    </td>
+                  </motion.tr>
+                ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="empty-state">
+                  <i className="bi bi-inbox"></i>
+                  <p>Ma'lumot topilmadi</p>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

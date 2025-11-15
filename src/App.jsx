@@ -31,7 +31,6 @@ import NewMusic from "./page/new-music/new-music";
 import musicService from "./service/music";
 import OldMusic from "./page/old-music/old-music";
 import DjReport from "./page/dj-report/dj-report";
-import KaraokeService from "./service/karaoke";
 import FoodOrders from "./page/orders/food-orders";
 import TradeTableService from "./service/tradeTable";
 import TradeTable from "./page/tradeTable/table";
@@ -39,13 +38,13 @@ import SavedService from "./service/saved-service";
 import MusicOrders from "./page/orders/music-orders";
 import PaymentService from "./service/payment";
 import DebtService from "./service/debt";
+import Waiters from "./page/waiters/waiters";
 
 import io from "socket.io-client";
-import Karaoke from "./page/orders/karaoke";
 import CallService from "./service/call";
 import Call from "./page/orders/call";
 
-const socket = io.connect("https://restoran-service.onrender.com");
+const socket = io.connect("https://api.kepket.uz");
 
 function App() {
   const dispatch = useDispatch();
@@ -55,9 +54,6 @@ function App() {
   useEffect(() => {
     socket.on("get_order", (data) => {
       OrderService.getOrders(dispatch);
-    });
-    socket.on("get_karaoke", (data) => {
-      KaraokeService.getKaraoke(dispatch);
     });
     socket.on("call-info", (data) => {
       CallService.getCalls(dispatch);
@@ -84,7 +80,6 @@ function App() {
     DebtService.getDebt(dispatch);
     getServices(dispatch);
     SavedService.getSaved(dispatch);
-    KaraokeService.getKaraoke(dispatch);
     TradeTableService.getTradeTable(dispatch);
     addUnpaidFunction(
       dispatch,
@@ -126,10 +121,6 @@ function App() {
           element={<RestoranLayout activePage={<Table />} />}
         />
         <Route
-          path="/restoran/orders/karaoke"
-          element={<RestoranLayout activePage={<Karaoke />} />}
-        />
-        <Route
           path="/restoran/orders/call"
           element={<RestoranLayout activePage={<Call />} />}
         />
@@ -156,6 +147,10 @@ function App() {
         <Route
           path="/restoran/save-orders"
           element={<RestoranLayout activePage={<TradeTable />} />}
+        />
+        <Route
+          path="/restoran/waiters"
+          element={<RestoranLayout activePage={<Waiters />} />}
         />
       </Routes>
     </>

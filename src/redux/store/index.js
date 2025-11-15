@@ -11,9 +11,9 @@ import DebtReducer from "../slice/debt";
 import ServiceReducer from "../slice/service-slice";
 import SavedOrders from "../slice/saved-orders";
 import MusicReducer from "../slice/music";
-import KaraokeReducer from "../slice/karaoke";
 import TradeTableReducer from "../slice/trade-table";
 import CallReducer from "../slice/call";
+import WaiterReducer from "../slice/waiter";
 
 const store = configureStore({
   reducer: {
@@ -29,9 +29,9 @@ const store = configureStore({
     service: ServiceReducer,
     saved: SavedOrders,
     music: MusicReducer,
-    karaoke: KaraokeReducer,
     tradeTable: TradeTableReducer,
     call: CallReducer,
+    waiter: WaiterReducer,
   },
   devTools: process.env.NODE_ENV != "production",
 });

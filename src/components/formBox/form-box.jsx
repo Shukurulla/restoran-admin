@@ -7,7 +7,7 @@ import FoodService from "../../service/foodSerive";
 import { changePage } from "../../redux/slice/ui";
 import { getDosageStart, getDosageSuccess } from "../../redux/slice/dosage";
 import DosageService from "../../service/dosage";
-import axios from "axios";
+import api from "../../service/api";
 
 const FormBox = () => {
   const dispatch = useDispatch();
@@ -39,37 +39,77 @@ const FormBox = () => {
 
   const formSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "restoran-order");
-    formData.append("cloud_name", "djsdapm3z");
 
-    await fetch("https://api.cloudinary.com/v1_1/djsdapm3z/image/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then(async (data) => {
-        const food = await FoodService.postFoods({
-          image: data.secure_url,
-          foodName,
-          dosage,
-          category,
-          body,
-          totalDosage,
-          price,
-        });
-        dispatch(getFoodsSuccess(food.data));
-        navigate("/foods");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // Validatsiya
+    if (!file) {
+      alert("Iltimos, rasm tanlang!");
+      return;
+    }
+    if (!foodName || !price || !totalDosage) {
+      alert("Iltimos, barcha maydonlarni to'ldiring!");
+      return;
+    }
+
+    setIsDisabled(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("foodName", foodName);
+      formData.append("dosage", dosage);
+      formData.append("category", category);
+      formData.append("body", body);
+      formData.append("totalDosage", totalDosage);
+      formData.append("price", price);
+
+      const response = await api.post(
+        "/foods-create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          timeout: 30000, // 30 soniya timeout
+        }
+      );
+
+      if (response.data && response.data.data) {
+        dispatch(getFoodsSuccess(response.data.data));
+        navigate("/restoran/foods");
+      }
+    } catch (err) {
+      console.error("Xatolik:", err);
+      if (err.code === 'ECONNABORTED') {
+        alert("So'rov juda uzoq davom etdi. Iltimos qaytadan urinib ko'ring!");
+      } else {
+        alert(err.response?.data?.message || "Taom qo'shishda xatolik yuz berdi!");
+      }
+      setIsDisabled(false);
+    }
   };
 
   const changeFile = (e) => {
-    setFile(e.target.files[0]);
-    setLabelImage(URL.createObjectURL(e.target.files[0]));
+    const selectedFile = e.target.files[0];
+
+    if (!selectedFile) return;
+
+    // Fayl hajmini tekshirish (5MB)
+    if (selectedFile.size > 5 * 1024 * 1024) {
+      alert("Rasm hajmi juda katta! Maksimal 5MB bo'lishi kerak.");
+      e.target.value = "";
+      return;
+    }
+
+    // Fayl turini tekshirish
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    if (!validTypes.includes(selectedFile.type)) {
+      alert("Faqat rasm fayllari qabul qilinadi (JPG, PNG, GIF, WEBP)!");
+      e.target.value = "";
+      return;
+    }
+
+    setFile(selectedFile);
+    setLabelImage(URL.createObjectURL(selectedFile));
   };
 
   useEffect(() => {
@@ -149,10 +189,20 @@ const FormBox = () => {
         <button
           className="btn btn-primary"
           disabled={isDisabled}
-          onClick={() => setIsDisabled(true)}
           type="submit"
+          style={{ minWidth: '200px' }}
         >
-          {isDisabled ? "Yuklanmoqda" : "Taom Qoshish"}
+          {isDisabled ? (
+            <>
+              <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+              Yuklanmoqda...
+            </>
+          ) : (
+            <>
+              <i className="bi bi-plus-circle me-2"></i>
+              Taom Qo'shish
+            </>
+          )}
         </button>
       </div>
     </form>

@@ -147,8 +147,11 @@ const Payment = ({ item, setState, debt, submitType }) => {
           </div>
         </div>
       ) : (
-        <div className="form-box">
-          <h4>Qarzga kiritish</h4>
+        <div className="form-box payment">
+          <div className="report-header">
+            <i className="bi bi-x-lg" onClick={() => setState(false)}></i>
+            <h4>Qarzga kiritish</h4>
+          </div>
           <input
             type="text"
             className="form-input "
