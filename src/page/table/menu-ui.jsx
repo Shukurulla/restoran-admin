@@ -6,7 +6,6 @@ import { useToSvg } from "@hugocxl/react-to-image";
 const MenuUi = ({ item, setState }) => {
   const { ref, isLoading, getSvg } = useToImage();
 
-
   return (
     <div className="menu-content">
       <div className="w-100 ">
@@ -52,14 +51,14 @@ const MenuUi = ({ item, setState }) => {
           <div className="qr-box">
             <div className="scan">
               <img
-                src={`http://api.qrserver.com/v1/create-qr-code/?data=https://test-restoran.netlify.app/menu/table/${item._id}&size=x&bgcolor=`}
+                src={`http://api.qrserver.com/v1/create-qr-code/?data=https://restoran-order.vercel.app/menu/table/${item._id}&size=x&bgcolor=`}
                 alt=""
               />
               <p>Menu uchun</p>
             </div>
             <div className="scan">
               <img
-                src={`http://api.qrserver.com/v1/create-qr-code/?data=https://test-restoran.netlify.app/check/table/${item._id}&size=x&bgcolor=`}
+                src={`http://api.qrserver.com/v1/create-qr-code/?data=https://restoran-order.vercel.app/check/table/${item._id}&size=x&bgcolor=`}
                 alt=""
               />
               <p>Hisob uchun</p>
